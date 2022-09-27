@@ -1,0 +1,313 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model users {
+  address                  String  @id
+  premium_finish_timestamp BigInt  @default(0)
+  token                    token[]
+}
+
+model token {
+  token       String   @id
+  user        String
+  type        String
+  expires     DateTime @db.Timestamp(6)
+  blacklisted Boolean
+  users       users    @relation(fields: [user], references: [address], onDelete: Cascade)
+}
+
+model trending_1m {
+  address            String @id
+  collection         Json?    @db.Json
+  floor        Decimal? @db.Decimal
+  floor_change Decimal? @db.Decimal(78, 2)
+  sales              BigInt?
+  sales_change       Decimal? @db.Decimal(78, 2)
+  average            Decimal? @db.Decimal
+  average_change     Decimal? @db.Decimal(78, 2)
+  volume             Decimal? @db.Decimal
+  volume_change      Decimal? @db.Decimal(78, 2)
+  unique_owner       Decimal? @db.Decimal(5, 2)
+  deployed_ago       DateTime @db.Timestamp(6)
+}
+
+model trending_15m {
+  address            String @id
+  collection         Json?    @db.Json
+  floor        Decimal? @db.Decimal
+  floor_change Decimal? @db.Decimal(78, 2)
+  sales              BigInt?
+  sales_change       Decimal? @db.Decimal(78, 2)
+  average            Decimal? @db.Decimal
+  average_change     Decimal? @db.Decimal(78, 2)
+  volume             Decimal? @db.Decimal
+  volume_change      Decimal? @db.Decimal(78, 2)
+  unique_owner       Decimal? @db.Decimal(5, 2)
+  deployed_ago       DateTime @db.Timestamp(6)
+}
+
+model trending_30m {
+  address            String @id
+  collection         Json?    @db.Json
+  floor        Decimal? @db.Decimal
+  floor_change Decimal? @db.Decimal(78, 2)
+  sales              BigInt?
+  sales_change       Decimal? @db.Decimal(78, 2)
+  average            Decimal? @db.Decimal
+  average_change     Decimal? @db.Decimal(78, 2)
+  volume             Decimal? @db.Decimal
+  volume_change      Decimal? @db.Decimal(78, 2)
+  unique_owner       Decimal? @db.Decimal(5, 2)
+  deployed_ago       DateTime @db.Timestamp(6)
+}
+
+model trending_1h {
+  address            String @id
+  collection         Json?    @db.Json
+  floor        Decimal? @db.Decimal
+  floor_change Decimal? @db.Decimal(78, 2)
+  sales              BigInt?
+  sales_change       Decimal? @db.Decimal(78, 2)
+  average            Decimal? @db.Decimal
+  average_change     Decimal? @db.Decimal(78, 2)
+  volume             Decimal? @db.Decimal
+  volume_change      Decimal? @db.Decimal(78, 2)
+  unique_owner       Decimal? @db.Decimal(5, 2)
+  deployed_ago       DateTime @db.Timestamp(6)
+}
+
+model trending_12h {
+  address            String @id
+  collection         Json?    @db.Json
+  floor        Decimal? @db.Decimal
+  floor_change Decimal? @db.Decimal(78, 2)
+  sales              BigInt?
+  sales_change       Decimal? @db.Decimal(78, 2)
+  average            Decimal? @db.Decimal
+  average_change     Decimal? @db.Decimal(78, 2)
+  volume             Decimal? @db.Decimal
+  volume_change      Decimal? @db.Decimal(78, 2)
+  unique_owner       Decimal? @db.Decimal(5, 2)
+  deployed_ago       DateTime @db.Timestamp(6)
+}
+
+model trending_1d {
+  address            String @id
+  collection         Json?    @db.Json
+  floor        Decimal? @db.Decimal
+  floor_change Decimal? @db.Decimal(78, 2)
+  sales              BigInt?
+  sales_change       Decimal? @db.Decimal(78, 2)
+  average            Decimal? @db.Decimal
+  average_change     Decimal? @db.Decimal(78, 2)
+  volume             Decimal? @db.Decimal
+  volume_change      Decimal? @db.Decimal(78, 2)
+  unique_owner       Decimal? @db.Decimal(5, 2)
+  deployed_ago       DateTime @db.Timestamp(6)
+}
+
+model trending_3d {
+  address            String @id
+  collection         Json?    @db.Json
+  floor        Decimal? @db.Decimal
+  floor_change Decimal? @db.Decimal(78, 2)
+  sales              BigInt?
+  sales_change       Decimal? @db.Decimal(78, 2)
+  average            Decimal? @db.Decimal
+  average_change     Decimal? @db.Decimal(78, 2)
+  volume             Decimal? @db.Decimal
+  volume_change      Decimal? @db.Decimal(78, 2)
+  unique_owner       Decimal? @db.Decimal(5, 2)
+  deployed_ago       DateTime @db.Timestamp(6)
+}
+
+model trending_7d {
+  address            String @id
+  collection         Json?    @db.Json
+  floor        Decimal? @db.Decimal
+  floor_change Decimal? @db.Decimal(78, 2)
+  sales              BigInt?
+  sales_change       Decimal? @db.Decimal(78, 2)
+  average            Decimal? @db.Decimal
+  average_change     Decimal? @db.Decimal(78, 2)
+  volume             Decimal? @db.Decimal
+  volume_change      Decimal? @db.Decimal(78, 2)
+  unique_owner       Decimal? @db.Decimal(5, 2)
+  deployed_ago       DateTime @db.Timestamp(6)
+}
+
+
+model minting_1m {
+  address            String @id
+  collection         Json?    @db.Json
+  mints              BigInt?
+  mints_change       Decimal? @db.Decimal(78, 2)
+  minters            BigInt?
+  minters_change     Decimal? @db.Decimal(78, 2)
+  volume             Decimal? @db.Decimal
+  volume_change      Decimal? @db.Decimal(78, 2)
+  unique_owner       Decimal? @db.Decimal(5, 2)
+  deployed_ago       DateTime @db.Timestamp(6)
+}
+
+model minting_15m {
+  address            String @id
+  collection         Json?    @db.Json
+  mints              BigInt?
+  mints_change       Decimal? @db.Decimal(78, 2)
+  minters            BigInt?
+  minters_change     Decimal? @db.Decimal(78, 2)
+  volume             Decimal? @db.Decimal
+  volume_change      Decimal? @db.Decimal(78, 2)
+  unique_owner       Decimal? @db.Decimal(5, 2)
+  deployed_ago       DateTime @db.Timestamp(6)
+}
+
+model minting_30m {
+  address            String @id
+  collection         Json?    @db.Json
+  mints              BigInt?
+  mints_change       Decimal? @db.Decimal(78, 2)
+  minters            BigInt?
+  minters_change     Decimal? @db.Decimal(78, 2)
+  volume             Decimal? @db.Decimal
+  volume_change      Decimal? @db.Decimal(78, 2)
+  unique_owner       Decimal? @db.Decimal(5, 2)
+  deployed_ago       DateTime @db.Timestamp(6)
+}
+
+model minting_1h {
+  address            String @id
+  collection         Json?    @db.Json
+  mints              BigInt?
+  mints_change       Decimal? @db.Decimal(78, 2)
+  minters            BigInt?
+  minters_change     Decimal? @db.Decimal(78, 2)
+  volume             Decimal? @db.Decimal
+  volume_change      Decimal? @db.Decimal(78, 2)
+  unique_owner       Decimal? @db.Decimal(5, 2)
+  deployed_ago       DateTime @db.Timestamp(6)
+}
+
+model minting_12h {
+  address            String @id
+  collection         Json?    @db.Json
+  mints              BigInt?
+  mints_change       Decimal? @db.Decimal(78, 2)
+  minters            BigInt?
+  minters_change     Decimal? @db.Decimal(78, 2)
+  volume             Decimal? @db.Decimal
+  volume_change      Decimal? @db.Decimal(78, 2)
+  unique_owner       Decimal? @db.Decimal(5, 2)
+  deployed_ago       DateTime @db.Timestamp(6)
+}
+
+model minting_1d {
+  address            String @id
+  collection         Json?    @db.Json
+  mints              BigInt?
+  mints_change       Decimal? @db.Decimal(78, 2)
+  minters            BigInt?
+  minters_change     Decimal? @db.Decimal(78, 2)
+  volume             Decimal? @db.Decimal
+  volume_change      Decimal? @db.Decimal(78, 2)
+  unique_owner       Decimal? @db.Decimal(5, 2)
+  deployed_ago       DateTime @db.Timestamp(6)
+}
+
+model minting_3d {
+  address            String @id
+  collection         Json?    @db.Json
+  mints              BigInt?
+  mints_change       Decimal? @db.Decimal(78, 2)
+  minters            BigInt?
+  minters_change     Decimal? @db.Decimal(78, 2)
+  volume             Decimal? @db.Decimal
+  volume_change      Decimal? @db.Decimal(78, 2)
+  unique_owner       Decimal? @db.Decimal(5, 2)
+  deployed_ago       DateTime @db.Timestamp(6)
+}
+
+model minting_7d {
+  address            String @id
+  collection         Json?    @db.Json
+  mints              BigInt?
+  mints_change       Decimal? @db.Decimal(78, 2)
+  minters            BigInt?
+  minters_change     Decimal? @db.Decimal(78, 2)
+  volume             Decimal? @db.Decimal
+  volume_change      Decimal? @db.Decimal(78, 2)
+  unique_owner       Decimal? @db.Decimal(5, 2)
+  deployed_ago       DateTime @db.Timestamp(6)
+}
+
+model overview_24h {
+  address       String   @id
+  floor         Decimal? @db.Decimal(78, 4)
+  floor_change  Decimal? @db.Decimal(78, 2)
+  floor_old     Decimal? @db.Decimal(78, 4)
+  sales         BigInt?
+  sales_change  Decimal? @db.Decimal(78, 2)
+  sales_old     BigInt?
+  volume        Decimal? @db.Decimal(78, 4)
+  volume_change Decimal? @db.Decimal(78, 2)
+  volume_old    Decimal? @db.Decimal(78, 4)
+}
+
+model overview_detailed_1d {
+  block_timestamp Float?
+  address         String   @id
+  floor           Decimal? @db.Decimal(78, 4)
+  sales           BigInt?
+  average         Decimal? @db.Decimal(78, 4)
+  volume          Decimal? @db.Decimal(78, 4)
+}
+
+model overview_detailed_7d {
+  block_timestamp Float?
+  address         String   @id
+  floor           Decimal? @db.Decimal(78, 4)
+  sales           BigInt?
+  average         Decimal? @db.Decimal(78, 4)
+  volume          Decimal? @db.Decimal(78, 4)
+}
+
+model overview_detailed_90d {
+  block_timestamp Float?
+  address         String   @id
+  floor           Decimal? @db.Decimal(78, 4)
+  sales           BigInt?
+  average         Decimal? @db.Decimal(78, 4)
+  volume          Decimal? @db.Decimal(78, 4)
+}
+
+model overview_detailed_all {
+  block_timestamp Float?
+  address         String   @id
+  floor           Decimal? @db.Decimal(78, 4)
+  sales           BigInt?
+  average         Decimal? @db.Decimal(78, 4)
+  volume          Decimal? @db.Decimal(78, 4)
+}
+
+model overview_info {
+  address      String    @id
+  name         String?
+  image_url    String?
+  deployed_ago DateTime? @db.Timestamp(6)
+  total_supply BigInt?
+  unique_owner Decimal?  @db.Decimal(5, 2)
+}
+
+model overview_txs {
+  block_timestamp DateTime? @db.Timestamp(6)
+  address         String    @id
+  buyer           String?
+  price           Decimal?  @db.Decimal
+}

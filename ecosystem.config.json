@@ -8,8 +8,7 @@
       "watch": false,
       "time": true,
       "env": {
-        "NODE_ENV": "production",
-        "NODE_OPTIONS": "--max_old_space_size=1024"
+        "NODE_ENV": "production"
       }
     }
   ]

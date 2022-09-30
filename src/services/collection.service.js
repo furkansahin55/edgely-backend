@@ -29,9 +29,15 @@ const getTransactions = async (address) => {
   return transactions;
 };
 
+const getFeeds = async (address, skip) => {
+  const transactions = await collectionModel.getFeed(address, skip);
+  return transactions;
+};
+
 module.exports = {
   getCollectionInfo,
   get24hMetrics,
   getVpsMetrics,
   getTransactions,
+  getFeeds,
 };

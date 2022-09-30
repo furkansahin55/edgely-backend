@@ -76,4 +76,19 @@ describe('Collection routes', () => {
         .expect(httpStatus.OK);
     });
   });
+
+  describe('GET /v1/collection/feed/:address', () => {
+    test('should return unauthorized without token', async () => {
+      const res = await request(app)
+        .get('/v1/collection/feed/0x8b44b715004020773e8da1cd730de2f47c7d88b8')
+        .expect(httpStatus.UNAUTHORIZED);
+    });
+
+    test('should return OK', async () => {
+      const res = await request(app)
+        .get('/v1/collection/feed/0x8b44b715004020773e8da1cd730de2f47c7d88b8?skip=0')
+        .set('Authorization', `bearer ${testSuiteData.token}`)
+        .expect(httpStatus.OK);
+    });
+  });
 });

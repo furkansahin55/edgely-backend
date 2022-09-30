@@ -33,7 +33,6 @@ model trending_1m {
   average_change     Decimal? @db.Decimal(78, 2)
   volume             Decimal? @db.Decimal
   volume_change      Decimal? @db.Decimal(78, 2)
-  unique_owner       Decimal? @db.Decimal(5, 2)
   deployed_ago       DateTime @db.Timestamp(6)
 }
 
@@ -48,7 +47,6 @@ model trending_15m {
   average_change     Decimal? @db.Decimal(78, 2)
   volume             Decimal? @db.Decimal
   volume_change      Decimal? @db.Decimal(78, 2)
-  unique_owner       Decimal? @db.Decimal(5, 2)
   deployed_ago       DateTime @db.Timestamp(6)
 }
 
@@ -63,7 +61,6 @@ model trending_30m {
   average_change     Decimal? @db.Decimal(78, 2)
   volume             Decimal? @db.Decimal
   volume_change      Decimal? @db.Decimal(78, 2)
-  unique_owner       Decimal? @db.Decimal(5, 2)
   deployed_ago       DateTime @db.Timestamp(6)
 }
 
@@ -78,7 +75,6 @@ model trending_1h {
   average_change     Decimal? @db.Decimal(78, 2)
   volume             Decimal? @db.Decimal
   volume_change      Decimal? @db.Decimal(78, 2)
-  unique_owner       Decimal? @db.Decimal(5, 2)
   deployed_ago       DateTime @db.Timestamp(6)
 }
 
@@ -93,7 +89,6 @@ model trending_12h {
   average_change     Decimal? @db.Decimal(78, 2)
   volume             Decimal? @db.Decimal
   volume_change      Decimal? @db.Decimal(78, 2)
-  unique_owner       Decimal? @db.Decimal(5, 2)
   deployed_ago       DateTime @db.Timestamp(6)
 }
 
@@ -108,7 +103,6 @@ model trending_1d {
   average_change     Decimal? @db.Decimal(78, 2)
   volume             Decimal? @db.Decimal
   volume_change      Decimal? @db.Decimal(78, 2)
-  unique_owner       Decimal? @db.Decimal(5, 2)
   deployed_ago       DateTime @db.Timestamp(6)
 }
 
@@ -123,7 +117,6 @@ model trending_3d {
   average_change     Decimal? @db.Decimal(78, 2)
   volume             Decimal? @db.Decimal
   volume_change      Decimal? @db.Decimal(78, 2)
-  unique_owner       Decimal? @db.Decimal(5, 2)
   deployed_ago       DateTime @db.Timestamp(6)
 }
 
@@ -138,7 +131,6 @@ model trending_7d {
   average_change     Decimal? @db.Decimal(78, 2)
   volume             Decimal? @db.Decimal
   volume_change      Decimal? @db.Decimal(78, 2)
-  unique_owner       Decimal? @db.Decimal(5, 2)
   deployed_ago       DateTime @db.Timestamp(6)
 }
 
@@ -152,7 +144,6 @@ model minting_1m {
   minters_change     Decimal? @db.Decimal(78, 2)
   volume             Decimal? @db.Decimal
   volume_change      Decimal? @db.Decimal(78, 2)
-  unique_owner       Decimal? @db.Decimal(5, 2)
   deployed_ago       DateTime @db.Timestamp(6)
 }
 
@@ -165,7 +156,6 @@ model minting_15m {
   minters_change     Decimal? @db.Decimal(78, 2)
   volume             Decimal? @db.Decimal
   volume_change      Decimal? @db.Decimal(78, 2)
-  unique_owner       Decimal? @db.Decimal(5, 2)
   deployed_ago       DateTime @db.Timestamp(6)
 }
 
@@ -178,7 +168,6 @@ model minting_30m {
   minters_change     Decimal? @db.Decimal(78, 2)
   volume             Decimal? @db.Decimal
   volume_change      Decimal? @db.Decimal(78, 2)
-  unique_owner       Decimal? @db.Decimal(5, 2)
   deployed_ago       DateTime @db.Timestamp(6)
 }
 
@@ -191,7 +180,6 @@ model minting_1h {
   minters_change     Decimal? @db.Decimal(78, 2)
   volume             Decimal? @db.Decimal
   volume_change      Decimal? @db.Decimal(78, 2)
-  unique_owner       Decimal? @db.Decimal(5, 2)
   deployed_ago       DateTime @db.Timestamp(6)
 }
 
@@ -204,7 +192,6 @@ model minting_12h {
   minters_change     Decimal? @db.Decimal(78, 2)
   volume             Decimal? @db.Decimal
   volume_change      Decimal? @db.Decimal(78, 2)
-  unique_owner       Decimal? @db.Decimal(5, 2)
   deployed_ago       DateTime @db.Timestamp(6)
 }
 
@@ -217,7 +204,6 @@ model minting_1d {
   minters_change     Decimal? @db.Decimal(78, 2)
   volume             Decimal? @db.Decimal
   volume_change      Decimal? @db.Decimal(78, 2)
-  unique_owner       Decimal? @db.Decimal(5, 2)
   deployed_ago       DateTime @db.Timestamp(6)
 }
 
@@ -230,7 +216,6 @@ model minting_3d {
   minters_change     Decimal? @db.Decimal(78, 2)
   volume             Decimal? @db.Decimal
   volume_change      Decimal? @db.Decimal(78, 2)
-  unique_owner       Decimal? @db.Decimal(5, 2)
   deployed_ago       DateTime @db.Timestamp(6)
 }
 
@@ -243,62 +228,70 @@ model minting_7d {
   minters_change     Decimal? @db.Decimal(78, 2)
   volume             Decimal? @db.Decimal
   volume_change      Decimal? @db.Decimal(78, 2)
-  unique_owner       Decimal? @db.Decimal(5, 2)
   deployed_ago       DateTime @db.Timestamp(6)
 }
 
 model overview_24h {
   address       String   @id
-  floor         Decimal? @db.Decimal(78, 4)
-  floor_change  Decimal? @db.Decimal(78, 2)
-  floor_old     Decimal? @db.Decimal(78, 4)
+  floor         Decimal? @db.Decimal
+  floor_change  Decimal? @db.Decimal
+  floor_old     Decimal? @db.Decimal
   sales         BigInt?
-  sales_change  Decimal? @db.Decimal(78, 2)
+  sales_change  Decimal? @db.Decimal
   sales_old     BigInt?
-  volume        Decimal? @db.Decimal(78, 4)
-  volume_change Decimal? @db.Decimal(78, 2)
-  volume_old    Decimal? @db.Decimal(78, 4)
+  volume        Decimal? @db.Decimal
+  volume_change Decimal? @db.Decimal
+  volume_old    Decimal? @db.Decimal
 }
 
 model overview_detailed_1d {
-  block_timestamp Float?
+  block_timestamp DateTime @db.Timestamp(6)
   address         String   @id
-  floor           Decimal? @db.Decimal(78, 4)
+  floor           Decimal? @db.Decimal
+  max             Decimal? @db.Decimal
   sales           BigInt?
-  average         Decimal? @db.Decimal(78, 4)
-  volume          Decimal? @db.Decimal(78, 4)
+  average         Decimal? @db.Decimal
+  volume          Decimal? @db.Decimal
 }
 
 model overview_detailed_7d {
-  block_timestamp Float?
+  block_timestamp DateTime @db.Timestamp(6)
   address         String   @id
-  floor           Decimal? @db.Decimal(78, 4)
+  floor           Decimal? @db.Decimal
+  max             Decimal? @db.Decimal
   sales           BigInt?
-  average         Decimal? @db.Decimal(78, 4)
-  volume          Decimal? @db.Decimal(78, 4)
+  average         Decimal? @db.Decimal
+  volume          Decimal? @db.Decimal
 }
 
 model overview_detailed_90d {
-  block_timestamp Float?
+  block_timestamp DateTime @db.Timestamp(6)
   address         String   @id
-  floor           Decimal? @db.Decimal(78, 4)
+  floor           Decimal? @db.Decimal
+  max             Decimal? @db.Decimal
   sales           BigInt?
-  average         Decimal? @db.Decimal(78, 4)
-  volume          Decimal? @db.Decimal(78, 4)
+  average         Decimal? @db.Decimal
+  volume          Decimal? @db.Decimal
 }
 
 model overview_detailed_all {
-  block_timestamp Float?
+  block_timestamp DateTime @db.Timestamp(6)
   address         String   @id
-  floor           Decimal? @db.Decimal(78, 4)
+  floor           Decimal? @db.Decimal
+  max             Decimal? @db.Decimal
   sales           BigInt?
-  average         Decimal? @db.Decimal(78, 4)
-  volume          Decimal? @db.Decimal(78, 4)
+  average         Decimal? @db.Decimal
+  volume          Decimal? @db.Decimal
 }
 
 model overview_info {
   address      String    @id
   name         String?
+  symbol       String?
+  slug         String?
+  twitter_username String?
+  discord_url  String?
+  external_url String?
   image_url    String?
   deployed_ago DateTime? @db.Timestamp(6)
   total_supply BigInt?
@@ -310,4 +303,17 @@ model overview_txs {
   address         String    @id
   buyer           String?
   price           Decimal?  @db.Decimal
+}
+
+model feed_sample {
+  type             String?
+  block_number     Int?
+  log_index        Int?
+  address          String    @id
+  transaction_hash String?
+  block_timestamp  DateTime? @db.Timestamp(6)
+  from_address     String?
+  to_address       String?
+  token_id         String?
+  price_as_eth     Decimal?  @db.Decimal
 }

@@ -13,7 +13,17 @@ const vpsValidation = {
   }),
 };
 
+const feedValidation = {
+  query: Joi.object().keys({
+    skip: Joi.number().integer(),
+  }),
+  params: Joi.object().keys({
+    address: Joi.string().required(),
+  }),
+};
+
 module.exports = {
   addressValidation,
   vpsValidation,
+  feedValidation,
 };

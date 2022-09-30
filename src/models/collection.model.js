@@ -58,9 +58,20 @@ const getTransactions = async (address) => {
   }
 };
 
+const getFeed = async (address, skip) => {
+  try {
+    const result =
+      await prisma.$queryRaw`SELECT DISTINCT ON (block_number, log_index) feed.* FROM feed WHERE address = ${address} LIMIT 50 OFFSET ${skip}`;
+    return result;
+  } catch (error) {
+    throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'DB Error', true, error.message);
+  }
+};
+
 module.exports = {
   getCollectionInfo,
   get24hMetrics,
   getVpsMetrics,
   getTransactions,
+  getFeed,
 };

@@ -29,9 +29,29 @@ const getTransactions = async (address) => {
   return transactions;
 };
 
-const getFeeds = async (address, skip) => {
-  const transactions = await collectionModel.getFeed(address, skip);
-  return transactions;
+/**
+ * Gets the feed rows with given cursors
+ * if blockNumberCursor smaller than 0 means get the last page of feeds
+ * if blockNumberCursor equals to 0 means get the first page of feeds
+ * Else get feeds by using cursors
+ * @param {String} address
+ * @param {*} blockNumberCursor
+ * @param {*} logIndexCursor
+ * @param {*} take
+ * @returns {Object}
+ */
+const getFeeds = async (address, blockNumberCursor, logIndexCursor, take) => {
+  if (blockNumberCursor < 0) {
+    const feed = await collectionModel.getLastFeedPage(address, take);
+    return feed;
+  }
+  if (blockNumberCursor === 0) {
+    const feed = await collectionModel.getFirstFeedPage(address, take);
+    return feed;
+  }
+
+  const feed = await collectionModel.getFeed(address, blockNumberCursor, logIndexCursor, take);
+  return feed;
 };
 
 module.exports = {

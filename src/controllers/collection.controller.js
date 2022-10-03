@@ -27,8 +27,8 @@ const getTransactions = catchAsync(async (req, res) => {
 
 const getFeeds = catchAsync(async (req, res) => {
   const { address } = req.params;
-  const { skip } = req.query;
-  const data = await collectionService.getFeeds(address, skip);
+  const { blockNumberCursor, logIndexCursor, take } = req.query;
+  const data = await collectionService.getFeeds(address, blockNumberCursor, logIndexCursor, take);
   res.send(data);
 });
 

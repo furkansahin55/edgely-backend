@@ -86,7 +86,7 @@ describe('Collection routes', () => {
 
     test('should return OK', async () => {
       const res = await request(app)
-        .get('/v1/collection/feed/0x8b44b715004020773e8da1cd730de2f47c7d88b8?skip=0')
+        .get('/v1/collection/feed/0x8b44b715004020773e8da1cd730de2f47c7d88b8?take=10&logIndexCursor=0&blockNumberCursor=0')
         .set('Authorization', `bearer ${testSuiteData.token}`)
         .expect(httpStatus.OK);
     });

@@ -305,7 +305,7 @@ model overview_txs {
   price           Decimal?  @db.Decimal
 }
 
-model feed_sample {
+model feed {
   type             String?
   block_number     Int?
   log_index        Int?
@@ -316,4 +316,10 @@ model feed_sample {
   to_address       String?
   token_id         String?
   price_as_eth     Decimal?  @db.Decimal
+}
+
+model mint_graph {
+  block_timestamp DateTime? @db.Timestamp(6)
+  address         String    @id
+  mints           BigInt?
 }

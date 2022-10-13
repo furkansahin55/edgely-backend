@@ -14,13 +14,13 @@ const getCollectionInfo = async (address) => {
   return collectionInfo;
 };
 
-const get24hMetrics = async (address) => {
-  const metrics = await collectionModel.get24hMetrics(address);
+const get24hInfo = async (address) => {
+  const metrics = await collectionModel.get24hInfo(address);
   return metrics;
 };
 
-const getVpsMetrics = async (timeframe, address) => {
-  const metrics = await collectionModel.getVpsMetrics(timeframe, address);
+const getVpsGraph = async (timeframe, address) => {
+  const metrics = await collectionModel.getVpsGraph(timeframe, address);
   return metrics;
 };
 
@@ -54,10 +54,40 @@ const getFeeds = async (address, blockNumberCursor, logIndexCursor, take) => {
   return feed;
 };
 
+const getMintsChart = async (address) => {
+  const result = await collectionModel.getMintsChart(address);
+  return result;
+};
+
+const getMintsTable = async (address) => {
+  const result = await collectionModel.getMintsTable(address);
+  return result;
+};
+
+const getHoldersChartByCount = async (address) => {
+  const result = await collectionModel.getHoldersChartByCount(address);
+  return result;
+};
+
+const getHoldersChartByDays = async (address) => {
+  const result = await collectionModel.getHoldersChartByDays(address);
+  return result;
+};
+
+const getRelationsWithCollection = async (address) => {
+  const result = await collectionModel.getRelationsWithCollections(address);
+  return result;
+};
+
 module.exports = {
   getCollectionInfo,
-  get24hMetrics,
-  getVpsMetrics,
+  get24hInfo,
+  getVpsGraph,
   getTransactions,
   getFeeds,
+  getMintsChart,
+  getMintsTable,
+  getHoldersChartByCount,
+  getHoldersChartByDays,
+  getRelationsWithCollection,
 };

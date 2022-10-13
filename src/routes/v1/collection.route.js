@@ -8,13 +8,38 @@ const router = express.Router();
 
 router.get('/info/:address', auth('collection'), validate(addressValidation), collectionController.getCollectionInfo);
 
-router.get('/24h/:address', auth('collection'), validate(addressValidation), collectionController.get24hMetrics);
+router.get('/24h/:address', auth('collection'), validate(addressValidation), collectionController.get24hInfo);
 
-router.get('/vps/:timeframe/:address', auth('collection'), validate(vpsValidation), collectionController.getVpsMetrics);
+router.get('/vps/:timeframe/:address', auth('collection'), validate(vpsValidation), collectionController.getVpsGraph);
 
 router.get('/txs/:address', auth('collection'), validate(addressValidation), collectionController.getTransactions);
 
 router.get('/feed/:address', auth('collection'), validate(feedValidation), collectionController.getFeeds);
+
+router.get('/mints/chart/:address', auth('collection'), validate(addressValidation), collectionController.getMintsChart);
+
+router.get('/mints/table/:address', auth('collection'), validate(addressValidation), collectionController.getMintsTable);
+
+router.get(
+  '/holders/chart/count/:address',
+  auth('collection'),
+  validate(addressValidation),
+  collectionController.getHoldersChartByCount
+);
+
+router.get(
+  '/holders/chart/days/:address',
+  auth('collection'),
+  validate(addressValidation),
+  collectionController.getHoldersChartByDays
+);
+
+router.get(
+  '/relations/collection/:address',
+  auth('collection'),
+  validate(addressValidation),
+  collectionController.getRelationsWithCollection
+);
 
 module.exports = router;
 

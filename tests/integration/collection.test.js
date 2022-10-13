@@ -80,13 +80,88 @@ describe('Collection routes', () => {
   describe('GET /v1/collection/feed/:address', () => {
     test('should return unauthorized without token', async () => {
       const res = await request(app)
-        .get('/v1/collection/feed/0x8b44b715004020773e8da1cd730de2f47c7d88b8')
+        .get('/v1/collection/feed/0x8b44b715004020773e8da1cd730de2f47c7d88b8?take=10&logIndexCursor=0&blockNumberCursor=0')
         .expect(httpStatus.UNAUTHORIZED);
     });
 
     test('should return OK', async () => {
       const res = await request(app)
         .get('/v1/collection/feed/0x8b44b715004020773e8da1cd730de2f47c7d88b8?take=10&logIndexCursor=0&blockNumberCursor=0')
+        .set('Authorization', `bearer ${testSuiteData.token}`)
+        .expect(httpStatus.OK);
+    });
+  });
+
+  describe('GET /v1/collection/mints/chart/:address', () => {
+    test('should return unauthorized without token', async () => {
+      const res = await request(app)
+        .get('/v1/collection/mints/chart/0x8b44b715004020773e8da1cd730de2f47c7d88b8')
+        .expect(httpStatus.UNAUTHORIZED);
+    });
+
+    test('should return OK', async () => {
+      const res = await request(app)
+        .get('/v1/collection/mints/chart/0x8b44b715004020773e8da1cd730de2f47c7d88b8')
+        .set('Authorization', `bearer ${testSuiteData.token}`)
+        .expect(httpStatus.OK);
+    });
+  });
+
+  describe('GET /v1/collection/mints/table/:address', () => {
+    test('should return unauthorized without token', async () => {
+      const res = await request(app)
+        .get('/v1/collection/mints/table/0x8b44b715004020773e8da1cd730de2f47c7d88b8')
+        .expect(httpStatus.UNAUTHORIZED);
+    });
+
+    test('should return OK', async () => {
+      const res = await request(app)
+        .get('/v1/collection/mints/table/0x8b44b715004020773e8da1cd730de2f47c7d88b8')
+        .set('Authorization', `bearer ${testSuiteData.token}`)
+        .expect(httpStatus.OK);
+    });
+  });
+
+  describe('GET /v1/collection/holders/chart/count/:address', () => {
+    test('should return unauthorized without token', async () => {
+      const res = await request(app)
+        .get('/v1/collection/holders/chart/count/0x8b44b715004020773e8da1cd730de2f47c7d88b8')
+        .expect(httpStatus.UNAUTHORIZED);
+    });
+
+    test('should return OK', async () => {
+      const res = await request(app)
+        .get('/v1/collection/holders/chart/count/0x8b44b715004020773e8da1cd730de2f47c7d88b8')
+        .set('Authorization', `bearer ${testSuiteData.token}`)
+        .expect(httpStatus.OK);
+    });
+  });
+
+  describe('GET /v1/collection/holders/chart/days/:address', () => {
+    test('should return unauthorized without token', async () => {
+      const res = await request(app)
+        .get('/v1/collection/holders/chart/days/0x8b44b715004020773e8da1cd730de2f47c7d88b8')
+        .expect(httpStatus.UNAUTHORIZED);
+    });
+
+    test('should return OK', async () => {
+      const res = await request(app)
+        .get('/v1/collection/holders/chart/days/0x8b44b715004020773e8da1cd730de2f47c7d88b8')
+        .set('Authorization', `bearer ${testSuiteData.token}`)
+        .expect(httpStatus.OK);
+    });
+  });
+
+  describe('GET /v1/collection/relations/collection/:address', () => {
+    test('should return unauthorized without token', async () => {
+      const res = await request(app)
+        .get('/v1/collection/relations/collection/0x8b44b715004020773e8da1cd730de2f47c7d88b8')
+        .expect(httpStatus.UNAUTHORIZED);
+    });
+
+    test('should return OK', async () => {
+      const res = await request(app)
+        .get('/v1/collection/relations/collection/0x8b44b715004020773e8da1cd730de2f47c7d88b8')
         .set('Authorization', `bearer ${testSuiteData.token}`)
         .expect(httpStatus.OK);
     });

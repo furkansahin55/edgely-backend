@@ -7,15 +7,15 @@ const getCollectionInfo = catchAsync(async (req, res) => {
   res.send(data);
 });
 
-const get24hMetrics = catchAsync(async (req, res) => {
+const get24hInfo = catchAsync(async (req, res) => {
   const { address } = req.params;
-  const data = await collectionService.get24hMetrics(address);
+  const data = await collectionService.get24hInfo(address);
   res.send(data);
 });
 
-const getVpsMetrics = catchAsync(async (req, res) => {
+const getVpsGraph = catchAsync(async (req, res) => {
   const { timeframe, address } = req.params;
-  const data = await collectionService.getVpsMetrics(timeframe, address);
+  const data = await collectionService.getVpsGraph(timeframe, address);
   res.send(data);
 });
 
@@ -32,10 +32,45 @@ const getFeeds = catchAsync(async (req, res) => {
   res.send(data);
 });
 
+const getMintsChart = catchAsync(async (req, res) => {
+  const { address } = req.params;
+  const data = await collectionService.getMintsChart(address);
+  res.send(data);
+});
+
+const getMintsTable = catchAsync(async (req, res) => {
+  const { address } = req.params;
+  const data = await collectionService.getMintsTable(address);
+  res.send(data);
+});
+
+const getHoldersChartByCount = catchAsync(async (req, res) => {
+  const { address } = req.params;
+  const data = await collectionService.getHoldersChartByCount(address);
+  res.send(data);
+});
+
+const getHoldersChartByDays = catchAsync(async (req, res) => {
+  const { address } = req.params;
+  const data = await collectionService.getHoldersChartByDays(address);
+  res.send(data);
+});
+
+const getRelationsWithCollection = catchAsync(async (req, res) => {
+  const { address } = req.params;
+  const data = await collectionService.getRelationsWithCollection(address);
+  res.send(data);
+});
+
 module.exports = {
   getCollectionInfo,
-  get24hMetrics,
-  getVpsMetrics,
+  get24hInfo,
+  getVpsGraph,
   getTransactions,
   getFeeds,
+  getMintsChart,
+  getMintsTable,
+  getHoldersChartByCount,
+  getHoldersChartByDays,
+  getRelationsWithCollection,
 };

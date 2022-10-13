@@ -317,3 +317,10 @@ model feed {
   token_id         String?
   price_as_eth     Decimal?  @db.Decimal
 }
+
+model mints_chart {
+  block_timestamp DateTime? @db.Timestamp(6)
+  address         String    @id
+  mints           BigInt?
+}
+

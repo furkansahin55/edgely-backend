@@ -324,3 +324,9 @@ model mints_chart {
   mints           BigInt?
 }
 
+model labels {
+  id      Int    @id @default(autoincrement())
+  address String
+  type    Int    @db.SmallInt
+  user    String
+}

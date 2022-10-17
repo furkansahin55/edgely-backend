@@ -3,6 +3,7 @@ const authRoute = require('./auth.route');
 const trendingRoute = require('./trending.route');
 const mintingRoute = require('./minting.route');
 const collectionRoute = require('./collection.route');
+const labelsRoute = require('./labels.route');
 const docsRoute = require('./docs.route');
 const config = require('../../config/config');
 
@@ -24,6 +25,10 @@ const defaultRoutes = [
   {
     path: '/collection',
     route: collectionRoute,
+  },
+  {
+    path: '/labels',
+    route: labelsRoute,
   },
 ];
 

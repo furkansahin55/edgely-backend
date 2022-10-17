@@ -2,7 +2,7 @@ const { mintingModel } = require('../models');
 
 /**
  * Returns respective trending table
- * @returns {String}
+ * @returns {Object}
  */
 const getTable = async (timeFrame) => {
   const trendingTable = await mintingModel.getTable(timeFrame);

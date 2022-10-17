@@ -318,8 +318,9 @@ model feed {
   price_as_eth     Decimal?  @db.Decimal
 }
 
-model mint_graph {
+model mints_chart {
   block_timestamp DateTime? @db.Timestamp(6)
   address         String    @id
   mints           BigInt?
 }
+

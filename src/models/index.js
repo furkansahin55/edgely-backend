@@ -3,3 +3,4 @@ module.exports.tokenModel = require('./token.model');
 module.exports.trendingModel = require('./trending.model');
 module.exports.mintingModel = require('./minting.model');
 module.exports.collectionModel = require('./collection.model');
+module.exports.labelsModel = require('./labels.model');

@@ -2,7 +2,7 @@ const Joi = require('joi');
 
 const mintingTable = {
   params: Joi.object().keys({
-    timeFrame: Joi.string().valid('1m', '15m', '30m', '1h', '12h', '1d', '3d', '7d').required(),
+    timeFrame: Joi.string().valid('1m', '15m', '30m', '1h', '12h', '1d').required(),
   }),
 };
 

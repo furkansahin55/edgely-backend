@@ -29,92 +29,14 @@ describe('Trending routes', () => {
     });
   });
 
-  describe('GET /v1/trending/3d', () => {
+  describe('GET /v1/trending/labels/7d', () => {
     test('should return unauthorized without token', async () => {
-      const res = await request(app).get('/v1/trending/7d').expect(httpStatus.UNAUTHORIZED);
+      const res = await request(app).get('/v1/trending/labels/7d').expect(httpStatus.UNAUTHORIZED);
     });
 
     test('should return OK', async () => {
       const res = await request(app)
-        .get('/v1/trending/3d')
-        .set('Authorization', `bearer ${testSuiteData.token}`)
-        .expect(httpStatus.OK);
-    });
-  });
-
-  describe('GET /v1/trending/1d', () => {
-    test('should return unauthorized without token', async () => {
-      const res = await request(app).get('/v1/trending/7d').expect(httpStatus.UNAUTHORIZED);
-    });
-
-    test('should return OK', async () => {
-      const res = await request(app)
-        .get('/v1/trending/1d')
-        .set('Authorization', `bearer ${testSuiteData.token}`)
-        .expect(httpStatus.OK);
-    });
-  });
-
-  describe('GET /v1/trending/12h', () => {
-    test('should return unauthorized without token', async () => {
-      const res = await request(app).get('/v1/trending/7d').expect(httpStatus.UNAUTHORIZED);
-    });
-
-    test('should return OK', async () => {
-      const res = await request(app)
-        .get('/v1/trending/12h')
-        .set('Authorization', `bearer ${testSuiteData.token}`)
-        .expect(httpStatus.OK);
-    });
-  });
-
-  describe('GET /v1/trending/1h', () => {
-    test('should return unauthorized without token', async () => {
-      const res = await request(app).get('/v1/trending/7d').expect(httpStatus.UNAUTHORIZED);
-    });
-
-    test('should return OK', async () => {
-      const res = await request(app)
-        .get('/v1/trending/1h')
-        .set('Authorization', `bearer ${testSuiteData.token}`)
-        .expect(httpStatus.OK);
-    });
-  });
-
-  describe('GET /v1/trending/30m', () => {
-    test('should return unauthorized without token', async () => {
-      const res = await request(app).get('/v1/trending/7d').expect(httpStatus.UNAUTHORIZED);
-    });
-
-    test('should return OK', async () => {
-      const res = await request(app)
-        .get('/v1/trending/30m')
-        .set('Authorization', `bearer ${testSuiteData.token}`)
-        .expect(httpStatus.OK);
-    });
-  });
-
-  describe('GET /v1/trending/15m', () => {
-    test('should return unauthorized without token', async () => {
-      const res = await request(app).get('/v1/trending/7d').expect(httpStatus.UNAUTHORIZED);
-    });
-
-    test('should return OK', async () => {
-      const res = await request(app)
-        .get('/v1/trending/15m')
-        .set('Authorization', `bearer ${testSuiteData.token}`)
-        .expect(httpStatus.OK);
-    });
-  });
-
-  describe('GET /v1/trending/1m', () => {
-    test('should return unauthorized without token', async () => {
-      const res = await request(app).get('/v1/trending/7d').expect(httpStatus.UNAUTHORIZED);
-    });
-
-    test('should return OK', async () => {
-      const res = await request(app)
-        .get('/v1/trending/1m')
+        .get('/v1/trending/labels/7d')
         .set('Authorization', `bearer ${testSuiteData.token}`)
         .expect(httpStatus.OK);
     });

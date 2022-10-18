@@ -8,6 +8,8 @@ const router = express.Router();
 
 router.get('/:timeFrame', auth('minting'), validate(mintingTable), mintingController.getMintingTable);
 
+router.get('/labels/:timeFrame', auth('trending'), validate(mintingTable), mintingController.getMintingLabelsTable);
+
 module.exports = router;
 
 /**

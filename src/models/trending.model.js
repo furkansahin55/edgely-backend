@@ -5,7 +5,7 @@ require('../utils/bigIntPatch');
 
 const prisma = new PrismaClientSingleton();
 
-const getTable = async (timeFrame) => {
+const getTrendingTable = async (timeFrame) => {
   try {
     const tableName = `trending_${timeFrame}`;
     const result = await prisma[tableName].findMany({
@@ -20,6 +20,18 @@ const getTable = async (timeFrame) => {
   }
 };
 
+const getTrendingLabelTable = async (minutes, user) => {
+  try {
+    const result = await prisma.$queryRaw`
+    SELECT * FROM trending_labels(${user}, ${minutes});
+    `;
+    return result;
+  } catch (error) {
+    throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'DB Error', true, error.message);
+  }
+};
+
 module.exports = {
-  getTable,
+  getTrendingTable,
+  getTrendingLabelTable,
 };

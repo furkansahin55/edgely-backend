@@ -12,7 +12,7 @@ const wallet = new ethers.Wallet(privateKey);
 describe('Minting routes', () => {
   const testSuiteData = {};
 
-  describe('GET /v1/minting/7d', () => {
+  describe('GET /v1/minting/1d', () => {
     test('should return unauthorized without token', async () => {
       const res = await request(app).get('/v1/minting/7d').expect(httpStatus.UNAUTHORIZED);
     });
@@ -29,92 +29,14 @@ describe('Minting routes', () => {
     });
   });
 
-  describe('GET /v1/minting/3d', () => {
+  describe('GET /v1/minting/labels/1d', () => {
     test('should return unauthorized without token', async () => {
-      const res = await request(app).get('/v1/minting/7d').expect(httpStatus.UNAUTHORIZED);
+      const res = await request(app).get('/v1/minting/labels/1d').expect(httpStatus.UNAUTHORIZED);
     });
 
     test('should return OK', async () => {
       const res = await request(app)
-        .get('/v1/minting/3d')
-        .set('Authorization', `bearer ${testSuiteData.token}`)
-        .expect(httpStatus.OK);
-    });
-  });
-
-  describe('GET /v1/minting/1d', () => {
-    test('should return unauthorized without token', async () => {
-      const res = await request(app).get('/v1/minting/7d').expect(httpStatus.UNAUTHORIZED);
-    });
-
-    test('should return OK', async () => {
-      const res = await request(app)
-        .get('/v1/minting/1d')
-        .set('Authorization', `bearer ${testSuiteData.token}`)
-        .expect(httpStatus.OK);
-    });
-  });
-
-  describe('GET /v1/minting/12h', () => {
-    test('should return unauthorized without token', async () => {
-      const res = await request(app).get('/v1/minting/7d').expect(httpStatus.UNAUTHORIZED);
-    });
-
-    test('should return OK', async () => {
-      const res = await request(app)
-        .get('/v1/minting/12h')
-        .set('Authorization', `bearer ${testSuiteData.token}`)
-        .expect(httpStatus.OK);
-    });
-  });
-
-  describe('GET /v1/minting/1h', () => {
-    test('should return unauthorized without token', async () => {
-      const res = await request(app).get('/v1/minting/7d').expect(httpStatus.UNAUTHORIZED);
-    });
-
-    test('should return OK', async () => {
-      const res = await request(app)
-        .get('/v1/minting/1h')
-        .set('Authorization', `bearer ${testSuiteData.token}`)
-        .expect(httpStatus.OK);
-    });
-  });
-
-  describe('GET /v1/minting/30m', () => {
-    test('should return unauthorized without token', async () => {
-      const res = await request(app).get('/v1/minting/7d').expect(httpStatus.UNAUTHORIZED);
-    });
-
-    test('should return OK', async () => {
-      const res = await request(app)
-        .get('/v1/minting/30m')
-        .set('Authorization', `bearer ${testSuiteData.token}`)
-        .expect(httpStatus.OK);
-    });
-  });
-
-  describe('GET /v1/minting/15m', () => {
-    test('should return unauthorized without token', async () => {
-      const res = await request(app).get('/v1/minting/7d').expect(httpStatus.UNAUTHORIZED);
-    });
-
-    test('should return OK', async () => {
-      const res = await request(app)
-        .get('/v1/minting/15m')
-        .set('Authorization', `bearer ${testSuiteData.token}`)
-        .expect(httpStatus.OK);
-    });
-  });
-
-  describe('GET /v1/minting/1m', () => {
-    test('should return unauthorized without token', async () => {
-      const res = await request(app).get('/v1/minting/7d').expect(httpStatus.UNAUTHORIZED);
-    });
-
-    test('should return OK', async () => {
-      const res = await request(app)
-        .get('/v1/minting/1m')
+        .get('/v1/minting/labels/1d')
         .set('Authorization', `bearer ${testSuiteData.token}`)
         .expect(httpStatus.OK);
     });

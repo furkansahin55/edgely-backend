@@ -1,6 +1,6 @@
 version: '3'
 
 services:
-  edgely-app:
-    container_name: edgely-app-prod
+  edgely:
+    container_name: edgely-prod
     command: yarn start

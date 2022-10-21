@@ -1,8 +1,12 @@
-FROM node:alpine
+FROM node:16-slim
 
-RUN mkdir -p /usr/src/node-app && chown -R node:node /usr/src/node-app
+RUN apt-get update
 
-WORKDIR /usr/src/node-app
+RUN apt-get install -y openssl
+
+RUN mkdir -p /usr/src/edgely && chown -R node:node /usr/src/edgely
+
+WORKDIR /usr/src/edgely
 
 COPY package.json yarn.lock ./
 

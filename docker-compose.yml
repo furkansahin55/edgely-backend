@@ -1,12 +1,44 @@
 version: '3'
 
 services:
-  edgely-app:
+  edgely:
     build: .
-    image: node-app
+    image: edgely
     environment:
-      - MONGODB_URL=mongodb://mongodb:27017/node-boilerplate
+      - DATABASE_URL=postgresql://postgres:postgres@host.docker.internal:5432/edgely?schema=public
+      - PM2_PUBLIC_KEY=uykiv57uqr4xllt
+      - PM2_SECRET_KEY=9q1sac9vgfqr3o0
     ports:
       - '3000:3000'
     volumes:
-      - .:/usr/src/node-app
+      - .:/usr/src/edgely
+    depends_on:
+      - "postgres"
+      - "redis"
+
+  redis:
+    image: 'redis:7-alpine'
+    ports:
+      - '6379:6379'
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+    networks:
+      - edgely-network
+    volumes: 
+      - ./redis:/data
+
+  postgres:
+    image: postgres:15-alpine
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    networks:
+      - edgely-network
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
+
+networks:
+  edgely-network:
+    driver: bridge

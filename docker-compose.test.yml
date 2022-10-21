@@ -1,6 +1,6 @@
 version: '3'
 
 services:
-  edgely-app:
-    container_name: edgely-app-test
+  edgely:
+    container_name: edgely-test
     command: yarn test

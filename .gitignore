@@ -10,3 +10,7 @@ yarn-error.log
 
 # Code coverage
 coverage
+
+# Redis and postgres volumes
+redis
+postgres

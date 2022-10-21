@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "yarn prisma generate && pm2 start ecosystem.config.json --no-daemon --node-args='--max-old-space-size=4096' &",
+    "start": "yarn prisma generate && pm2 start ecosystem.config.json --no-daemon --node-args='--max-old-space-size=4096'",
     "dev": "cross-env NODE_ENV=development nodemon src/index.js",
     "test": "jest -i --colors --verbose --detectOpenHandles",
     "test:watch": "jest -i --watch",
@@ -37,7 +37,7 @@
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",
     "path": "^0.12.7",
-    "pm2": "^5.2.0",
+    "pm2": "^5.2.2",
     "supertest": "^6.2.4",
     "swagger-jsdoc": "^6.2.5",
     "swagger-ui-express": "^4.5.0",

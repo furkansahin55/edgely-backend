@@ -3,7 +3,7 @@ version: '3'
 services:
   edgely:
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/edgely?schema=public
+      - DATABASE_URL=postgresql://postgres:postgres@edgely-postgres:5432/edgely?schema=public
     container_name: edgely-prod
     command: yarn dev -L
     depends_on:

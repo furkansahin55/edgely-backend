@@ -19,8 +19,7 @@ services:
     networks:
       - edgely-network
     volumes:
-      - ./postgres/postgresql.conf:/var/lib/postgresql/data/postgresql.conf
-      - ./postgres/data:/var/lib/postgresql/data
+      - ./postgres:/var/lib/postgresql/data
       -  /media/box/:/media/box/
 
   nginx:

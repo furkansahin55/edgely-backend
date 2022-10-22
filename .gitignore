@@ -13,4 +13,4 @@ coverage
 
 # Redis and postgres volumes
 redis
-postgres/data
+postgres

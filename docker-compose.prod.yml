@@ -10,7 +10,7 @@ services:
       - "postgres"
 
   postgres:
-    name: edgely-postgres
+    container_name: edgely-postgres
     image: postgres:15-alpine
     ports:
       - '5432:5432'
@@ -23,7 +23,7 @@ services:
       - ./postgres:/var/lib/postgresql/data
 
   nginx:
-    name: edgely-nginx
+    container_name: edgely-nginx
     image: 'jc21/nginx-proxy-manager:latest'
     ports:
       - '80:80' # Public HTTP Port

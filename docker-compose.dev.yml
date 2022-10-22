@@ -3,4 +3,7 @@ version: '3'
 services:
   edgely:
     container_name: edgely-dev
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@host.docker.internal:5432/edgely?schema=public
     command: yarn dev -L
+

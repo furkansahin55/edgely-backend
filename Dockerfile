@@ -14,8 +14,8 @@ USER node
 
 RUN yarn install --pure-lockfile
 
-RUN yarn prisma generate
-
 COPY --chown=node:node . .
+
+RUN yarn prisma generate
 
 EXPOSE 3000

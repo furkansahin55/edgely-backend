@@ -16,6 +16,4 @@ RUN yarn install --pure-lockfile
 
 COPY --chown=node:node . .
 
-RUN yarn prisma generate
-
 EXPOSE 3000

@@ -5,7 +5,7 @@ services:
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/edgely?schema=public
     container_name: edgely-prod
-    command: yarn start
+    command: yarn dev -L
     depends_on:
       - "postgres"
 
@@ -20,7 +20,6 @@ services:
       - edgely-network
     volumes:
       - ./postgres:/var/lib/postgresql/data
-      -  /media/box/:/media/box/
 
   nginx:
     image: 'jc21/nginx-proxy-manager:latest'
@@ -28,10 +27,8 @@ services:
       - '80:80' # Public HTTP Port
       - '443:443' # Public HTTPS Port
       - '81:81' # Admin Web Port
-
     networks:
       - edgely-network
-
     volumes:
       - ./nginxproxymanager:/data
       - ./letsencrypt:/etc/letsencrypt

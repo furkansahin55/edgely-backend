@@ -15,3 +15,4 @@ coverage
 redis
 postgres
 nginxproxymanager
+letsencrypt

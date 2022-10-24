@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "pm2 start ecosystem.config.json --no-daemon --node-args='--max-old-space-size=4096'",
+    "start": "pm2 kill && pm2 start ecosystem.config.json --no-daemon --node-args='--max-old-space-size=4096'",
     "dev": "cross-env NODE_ENV=development nodemon src/index.js",
     "test": "jest -i --colors --verbose --detectOpenHandles",
     "test:watch": "jest -i --watch",

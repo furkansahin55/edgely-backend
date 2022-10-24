@@ -20,6 +20,7 @@ services:
       - POSTGRES_PASSWORD=postgres
     volumes:
       - postgresql:/var/lib/postgresql/data
+      - ./postgres:/media/box
 
   nginx:
     image: 'jc21/nginx-proxy-manager:latest'

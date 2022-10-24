@@ -24,8 +24,8 @@ services:
   nginx:
     image: 'jc21/nginx-proxy-manager:latest'
     ports:
-      - '127.0.0.1:80:80' # Public HTTP Port
-      - '127.0.0.1:443:443' # Public HTTPS Port
+      - '80:80' # Public HTTP Port
+      - '443:443' # Public HTTPS Port
       - '127.0.0.1:81:81' # Admin Web Port
     volumes:
       - ./nginxproxymanager:/data

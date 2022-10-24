@@ -14,7 +14,7 @@ services:
     expose:
       - 5432
     ports:
-      - '5432:5432'
+      - '127.0.0.1:5432:5432'
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
@@ -24,9 +24,9 @@ services:
   nginx:
     image: 'jc21/nginx-proxy-manager:latest'
     ports:
-      - '80:80' # Public HTTP Port
-      - '443:443' # Public HTTPS Port
-      - '81:81' # Admin Web Port
+      - '127.0.0.1:80:80' # Public HTTP Port
+      - '127.0.0.1:443:443' # Public HTTPS Port
+      - '127.0.0.1:81:81' # Admin Web Port
     volumes:
       - ./nginxproxymanager:/data
       - ./letsencrypt:/etc/letsencrypt

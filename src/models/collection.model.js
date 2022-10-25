@@ -1,17 +1,26 @@
 const httpStatus = require('http-status');
 const ApiError = require('../utils/ApiError');
 const PrismaClientSingleton = require('../utils/PrismaClient');
+const CacheSingleton = require('../utils/Cache');
 require('../utils/bigIntPatch');
 
 const prisma = new PrismaClientSingleton();
+const cache = new CacheSingleton();
 
 const getCollectionInfo = async (address) => {
   try {
+    const cacheId = `req:collection:info:${address}`;
+    const tags = [`all:${address}`, `metadata:${address}`];
+    const cacheResult = await cache.get(cacheId);
+    if (cacheResult) {
+      return cacheResult;
+    }
     const result = await prisma.overview_info.findUnique({
       where: {
         address,
       },
     });
+    await cache.set(cacheId, result, tags);
     return result;
   } catch (error) {
     throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'DB Error', true, error.message);
@@ -20,11 +29,18 @@ const getCollectionInfo = async (address) => {
 
 const get24hInfo = async (address) => {
   try {
+    const cacheId = `req:collection:24h:${address}`;
+    const tags = [`sale:${address}`];
+    const cacheResult = await cache.get(cacheId);
+    if (cacheResult) {
+      return cacheResult;
+    }
     const result = await prisma.overview_24h.findUnique({
       where: {
         address,
       },
     });
+    await cache.set(cacheId, result, tags);
     return result;
   } catch (error) {
     throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'DB Error', true, error.message);
@@ -33,11 +49,18 @@ const get24hInfo = async (address) => {
 
 const getVpsGraph = async (timeframe, address) => {
   try {
+    const cacheId = `req:collection:vps:${address}`;
+    const tags = [`sale:${address}`];
+    const cacheResult = await cache.get(cacheId);
+    if (cacheResult) {
+      return cacheResult;
+    }
     const result = await prisma[`overview_detailed_${timeframe}`].findMany({
       where: {
         address,
       },
     });
+    await cache.set(cacheId, result, tags);
     return result;
   } catch (error) {
     throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'DB Error', true, error.message);
@@ -46,12 +69,19 @@ const getVpsGraph = async (timeframe, address) => {
 
 const getTransactions = async (address) => {
   try {
+    const cacheId = `req:collection:txs:${address}`;
+    const tags = [`sale:${address}`];
+    const cacheResult = await cache.get(cacheId);
+    if (cacheResult) {
+      return cacheResult;
+    }
     const result = await prisma.overview_txs.findMany({
       take: 1000,
       where: {
         address,
       },
     });
+    await cache.set(cacheId, result, tags);
     return result;
   } catch (error) {
     throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'DB Error', true, error.message);
@@ -78,6 +108,13 @@ const feedQuery = async (address, limit, sort, blockNumberCursor = false, logInd
 
 const getFeed = async (address, blockNumberCursor, logIndexCursor, take) => {
   try {
+    const cacheId = `req:collection:feed:${address}:${blockNumberCursor}:${logIndexCursor}:${take}`;
+    const tags = [`all:${address}`];
+    const cacheResult = await cache.get(cacheId);
+    if (cacheResult) {
+      return cacheResult;
+    }
+
     const resultObj = {};
     if (take >= 0) {
       const takePlusOne = take + 1;
@@ -107,6 +144,7 @@ const getFeed = async (address, blockNumberCursor, logIndexCursor, take) => {
         resultObj.rows = queryResult;
       }
     }
+    await cache.set(cacheId, resultObj, tags);
     return resultObj;
   } catch (error) {
     throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'DB Error', true, error.message);
@@ -115,6 +153,13 @@ const getFeed = async (address, blockNumberCursor, logIndexCursor, take) => {
 
 const getLastFeedPage = async (address, take) => {
   try {
+    const cacheId = `req:collection:lastFeed:${address}:${take}`;
+    const tags = [`all:${address}`];
+    const cacheResult = await cache.get(cacheId);
+    if (cacheResult) {
+      return cacheResult;
+    }
+
     const resultObj = {};
     const takePlusOne = Math.abs(take) + 1;
     const queryResult = await feedQuery(address, takePlusOne, 'ASC');
@@ -129,6 +174,7 @@ const getLastFeedPage = async (address, take) => {
       resultObj.hasNext = false;
       resultObj.rows = queryResult;
     }
+    await cache.set(cacheId, resultObj, tags);
     return resultObj;
   } catch (error) {
     throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'DB Error', true, error.message);
@@ -137,6 +183,13 @@ const getLastFeedPage = async (address, take) => {
 
 const getFirstFeedPage = async (address, take) => {
   try {
+    const cacheId = `req:collection:firstFeed:${address}:${take}`;
+    const tags = [`all:${address}`];
+    const cacheResult = await cache.get(cacheId);
+    if (cacheResult) {
+      return cacheResult;
+    }
+
     const resultObj = {};
     const takePlusOne = Math.abs(take) + 1;
     const queryResult = await feedQuery(address, takePlusOne, 'DESC');
@@ -150,6 +203,7 @@ const getFirstFeedPage = async (address, take) => {
       resultObj.hasNext = false;
       resultObj.rows = queryResult;
     }
+    await cache.set(cacheId, resultObj, tags);
     return resultObj;
   } catch (error) {
     throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'DB Error', true, error.message);
@@ -158,11 +212,19 @@ const getFirstFeedPage = async (address, take) => {
 
 const getMintsChart = async (address) => {
   try {
+    const cacheId = `req:collection:mints:chart:${address}`;
+    const tags = [`mint:${address}`];
+    const cacheResult = await cache.get(cacheId);
+    if (cacheResult) {
+      return cacheResult;
+    }
+
     const result = await prisma.mints_chart.findMany({
       where: {
         address,
       },
     });
+    await cache.set(cacheId, result, tags);
     return result;
   } catch (error) {
     throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'DB Error', true, error.message);
@@ -171,8 +233,16 @@ const getMintsChart = async (address) => {
 
 const getMintsTable = async (address) => {
   try {
+    const cacheId = `req:collection:mints:table:${address}`;
+    const tags = [`mint:${address}`];
+    const cacheResult = await cache.get(cacheId);
+    if (cacheResult) {
+      return cacheResult;
+    }
+
     const result =
       await prisma.$queryRaw`SELECT to_address, COUNT(log_index) as mints FROM (SELECT DISTINCT ON(address, token_id) * FROM mints_table WHERE address = ${address}) t1 GROUP BY to_address ORDER BY mints DESC LIMIT 20;`;
+    cache.set(cacheId, result, tags);
     return result;
   } catch (error) {
     throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'DB Error', true, error.message);
@@ -181,12 +251,19 @@ const getMintsTable = async (address) => {
 
 const getHoldersChartByCount = async (address) => {
   try {
+    const cacheId = `req:collection:holders:count:${address}`;
+    const tags = [`all:${address}`];
+    const cacheResult = cache.get(cacheId);
+    if (cacheResult) {
+      return cacheResult;
+    }
     const result = await prisma.$queryRaw`
     WITH count_table AS (
         SELECT COUNT(token_id) as token_count, to_address as owner FROM tokens WHERE address = ${address} AND to_address NOT IN ('0x000000000000000000000000000000000000dead', '0x0000000000000000000000000000000000000000') GROUP BY to_address ORDER BY token_count DESC
         )
         SELECT token_count, COUNT(owner) as owner_count FROM count_table GROUP BY token_count ORDER BY token_count;
     `;
+    await cache.set(cacheId, result, tags);
     return result;
   } catch (error) {
     throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'DB Error', true, error.message);
@@ -195,12 +272,20 @@ const getHoldersChartByCount = async (address) => {
 
 const getHoldersChartByDays = async (address) => {
   try {
+    const cacheId = `req:collection:holders:days:${address}`;
+    const tags = [`all:${address}`];
+    const cacheResult = await cache.get(cacheId);
+    if (cacheResult) {
+      return cacheResult;
+    }
+
     const result = await prisma.$queryRaw`
     WITH days_table AS (
     SELECT DISTINCT ON (token_id) address, token_id, transaction_hash, DATE_PART('day', to_utc('2022-06-17 17:48:24.74218+02'::TIMESTAMP) - to_utc(block_timestamp)) as days_ago
     FROM tokens WHERE address = ${address} AND to_address NOT IN ('0x000000000000000000000000000000000000dead', '0x0000000000000000000000000000000000000000') ORDER BY token_id, block_number DESC, log_index DESC
     ) SELECT days_ago, COUNT(token_id) as token_count FROM days_table GROUP BY days_ago ORDER BY days_ago;
     `;
+    await cache.set(cacheId, result, tags);
     return result;
   } catch (error) {
     throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'DB Error', true, error.message);
@@ -209,6 +294,13 @@ const getHoldersChartByDays = async (address) => {
 
 const getRelationsWithCollections = async (address) => {
   try {
+    const cacheId = `req:collection:holders:days:${address}`;
+    const tags = [`all`];
+    const cacheResult = await cache.get(cacheId);
+    if (cacheResult) {
+      return cacheResult;
+    }
+
     let result = await prisma.$queryRaw`
     WITH holders AS (
       SELECT to_address FROM tokens WHERE address = ${address} GROUP BY to_address)
@@ -218,6 +310,7 @@ const getRelationsWithCollections = async (address) => {
       SELECT adresses.*, contracts.name FROM adresses JOIN contracts ON contracts.address = adresses.address;
     `;
     result = result.filter((item) => item.address !== address);
+    await cache.set(cacheId, result, tags);
     return result;
   } catch (error) {
     throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'DB Error', true, error.message);

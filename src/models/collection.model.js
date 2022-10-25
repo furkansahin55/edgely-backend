@@ -49,7 +49,7 @@ const get24hInfo = async (address) => {
 
 const getVpsGraph = async (timeframe, address) => {
   try {
-    const cacheId = `req:collection:vps:${address}`;
+    const cacheId = `req:collection:vps:${timeframe}:${address}`;
     const tags = [`sale:${address}`];
     const cacheResult = await cache.get(cacheId);
     if (cacheResult) {

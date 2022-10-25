@@ -253,7 +253,7 @@ const getHoldersChartByCount = async (address) => {
   try {
     const cacheId = `req:collection:holders:count:${address}`;
     const tags = [`all:${address}`];
-    const cacheResult = cache.get(cacheId);
+    const cacheResult = await cache.get(cacheId);
     if (cacheResult) {
       return cacheResult;
     }

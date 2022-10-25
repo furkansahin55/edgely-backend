@@ -9,12 +9,10 @@ const cache = new CacheSingleton();
 
 const getTrendingTable = async (timeFrame) => {
   try {
-    const start = new Date().getTime();
     const cacheId = `req:trending:${timeFrame}`;
     const tags = ['sale'];
     const cacheResult = await cache.get(cacheId);
     if (cacheResult) {
-      console.log('cache hit :', new Date().getTime(), start)
       return cacheResult;
     }
 

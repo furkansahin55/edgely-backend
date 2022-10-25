@@ -294,7 +294,7 @@ const getHoldersChartByDays = async (address) => {
 
 const getRelationsWithCollections = async (address) => {
   try {
-    const cacheId = `req:collection:holders:days:${address}`;
+    const cacheId = `req:collection:relation:${address}`;
     const tags = [`all`];
     const cacheResult = await cache.get(cacheId);
     if (cacheResult) {

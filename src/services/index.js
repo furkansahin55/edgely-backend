@@ -4,3 +4,4 @@ module.exports.trendingService = require('./trending.service');
 module.exports.mintingService = require('./minting.service');
 module.exports.collectionService = require('./collection.service');
 module.exports.labelsService = require('./labels.service');
+module.exports.alertService = require('./alerts.service');

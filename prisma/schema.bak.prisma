@@ -324,3 +324,33 @@ model mints_chart {
   mints           BigInt?
 }
 
+model labels {
+  id      Int    @id @default(autoincrement())
+  address String
+  type    Int    @db.SmallInt
+  user    String
+}
+
+model alerts {
+  id                  Int     @id @default(autoincrement())
+  name                String
+  type_id             Int
+  arguments           Json    @default("{}")
+  delivery_channel_id Int
+  delivery_arguments  Json    @default("{}")
+  active              Boolean
+  user                String
+}
+
+model alerts_delivery_channels {
+  id     Int     @id @default(autoincrement())
+  name   String
+  active Boolean
+}
+
+model alerts_types {
+  id     Int     @id @default(autoincrement())
+  name   String
+  active Boolean
+  class  Int?
+}

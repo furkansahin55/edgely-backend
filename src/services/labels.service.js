@@ -5,8 +5,8 @@ const { labelsModel } = require('../models');
  * @returns {Object}
  */
 const getLabels = async (address) => {
-  const trendingTable = await labelsModel.getLabels(address);
-  return trendingTable;
+  const result = await labelsModel.getLabels(address);
+  return result;
 };
 
 /**

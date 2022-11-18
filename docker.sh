@@ -38,14 +38,6 @@ stop_existing() {
   if [ -n "$MYAPP" ]; then
     docker stop $MYAPP
   fi
-
-  if [ -n "$REDIS" ]; then
-    docker stop $REDIS
-  fi
-
-  if [ -n "$MONGO" ]; then
-    docker stop $MONGO
-  fi
 }
 
 remove_stopped_containers() {

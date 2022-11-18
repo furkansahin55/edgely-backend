@@ -3,7 +3,7 @@ version: '3'
 services:
   edgely:
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/edgely?schema=public
+      - DATABASE_URL=postgresql://postgres:postgres@pgbouncer:5432/edgely?schema=public
     container_name: edgely-prod
     command: yarn start
     depends_on:
@@ -20,6 +20,22 @@ services:
       - POSTGRES_PASSWORD=postgres
     volumes:
       - ./postgres:/var/lib/postgresql/data
+
+  pgbouncer:
+    image: edoburu/pgbouncer
+    expose:
+      - 5432
+    environment:
+       - DB_USER=postgres
+       - DB_PASSWORD=postgres
+       - DB_HOST=postgres
+       - DB_NAME=edgely
+       - POOL_MODE=transaction
+       - ADMIN_USERS=postgres
+    ports:
+      - "127.0.0.1:5432:5432"
+    depends_on:
+      - postgres
 
   nginx:
     image: 'jc21/nginx-proxy-manager:latest'

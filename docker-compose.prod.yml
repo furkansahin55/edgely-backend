@@ -31,6 +31,8 @@ services:
        - POOL_MODE=transaction
        - ADMIN_USERS=postgres
        - PGBOUNCER_AUTH_TYPE=md5
+    volumes:
+      - ./pgbouncer/userlist.txt:/etc/pgbouncer/userlist.txt
     ports:
       - "127.0.0.1:5432:5432"
     depends_on:

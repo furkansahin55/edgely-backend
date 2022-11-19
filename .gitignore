@@ -16,3 +16,4 @@ redis
 postgres
 nginxproxymanager
 letsencrypt
+pgbouncer

@@ -33,7 +33,7 @@ run() {
 }
 
 stop_existing() {
-  MYAPP="$(docker ps --all --quiet --filter=name=edgely)"
+  MYAPP="$(docker ps --all --quiet --filter=name=edgely-backend)"
 
   if [ -n "$MYAPP" ]; then
     docker stop $MYAPP

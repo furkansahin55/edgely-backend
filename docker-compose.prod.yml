@@ -4,7 +4,7 @@ services:
   edgely:
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@pgbouncer:5432/edgely?schema=public
-    container_name: edgely-prod
+    container_name: edgely-backend-prod
     command: yarn start
     depends_on:
       - "postgres"

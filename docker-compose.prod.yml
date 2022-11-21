@@ -34,7 +34,7 @@ services:
     volumes:
       - ./pgbouncer/userlist.txt:/etc/pgbouncer/userlist.txt
     ports:
-      - "127.0.0.1:5432:5432"
+      - "5432:5432"
     depends_on:
       - postgres
 
@@ -43,7 +43,7 @@ services:
     ports:
       - '80:80' # Public HTTP Port
       - '443:443' # Public HTTPS Port
-      - '127.0.0.1:81:81' # Admin Web Port
+      - '81:81' # Admin Web Port
     volumes:
       - ./nginxproxymanager:/data
       - ./letsencrypt:/etc/letsencrypt

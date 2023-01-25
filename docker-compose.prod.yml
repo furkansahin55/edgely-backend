@@ -31,7 +31,7 @@ services:
        - DB_PASSWORD=postgres
        - DB_HOST=postgres
        - DB_NAME=edgely
-       - POOL_MODE=transaction
+       - POOL_MODE=session
        - ADMIN_USERS=postgres
        - PGBOUNCER_AUTH_TYPE=md5
     volumes:

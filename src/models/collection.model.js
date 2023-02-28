@@ -259,7 +259,7 @@ const getHoldersChartByCount = async (address) => {
     }
     const result = await prisma.$queryRaw`
     WITH count_table AS (
-        SELECT COUNT(token_id) as token_count, to_address as owner FROM tokens WHERE address = ${address} AND to_address NOT IN ('0x000000000000000000000000000000000000dead', '0x0000000000000000000000000000000000000000') GROUP BY to_address ORDER BY token_count DESC
+        SELECT COUNT(token_id) as token_count, to_address as owner FROM tokens WHERE address = ${address} AND to_address NOT IN (SELECT address FROM dead_addresses) GROUP BY to_address ORDER BY token_count DESC
         )
         SELECT token_count, COUNT(owner) as owner_count FROM count_table GROUP BY token_count ORDER BY token_count;
     `;

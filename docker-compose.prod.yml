@@ -4,6 +4,8 @@ services:
   edgely:
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@pgbouncer:5432/edgely?schema=public
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
     container_name: edgely-backend-prod
     command: yarn start
     depends_on:
@@ -31,7 +33,7 @@ services:
        - DB_PASSWORD=postgres
        - DB_HOST=postgres
        - DB_NAME=edgely
-       - POOL_MODE=transaction
+       - POOL_MODE=session
        - ADMIN_USERS=postgres
        - PGBOUNCER_AUTH_TYPE=md5
     volumes:

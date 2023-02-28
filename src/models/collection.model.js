@@ -282,7 +282,7 @@ const getHoldersChartByDays = async (address) => {
     const result = await prisma.$queryRaw`
     WITH days_table AS (
     SELECT DISTINCT ON (token_id) address, token_id, transaction_hash, DATE_PART('day', to_utc('2022-06-17 17:48:24.74218+02'::TIMESTAMP) - to_utc(block_timestamp)) as days_ago
-    FROM tokens WHERE address = ${address} AND to_address NOT IN ('0x000000000000000000000000000000000000dead', '0x0000000000000000000000000000000000000000') ORDER BY token_id, block_number DESC, log_index DESC
+    FROM tokens WHERE address = ${address} AND to_address NOT IN (SELECT address FROM dead_addresses) ORDER BY token_id, block_number DESC, log_index DESC
     ) SELECT days_ago, COUNT(token_id) as token_count FROM days_table GROUP BY days_ago ORDER BY days_ago;
     `;
     await cache.set(cacheId, result, tags);

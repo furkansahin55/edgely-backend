@@ -27,9 +27,6 @@ app.use(express.urlencoded({ extended: true }));
 // sanitize request data
 app.use(xss());
 
-app.use(cors());
-app.options('*', cors());
-
 // jwt authentication
 app.use(passport.initialize());
 passport.use('jwt', jwtStrategy);
@@ -38,6 +35,23 @@ passport.use('jwt', jwtStrategy);
 if (config.env === 'production') {
   app.use('/v1/auth', authLimiter);
 }
+
+app.use(
+  cors({
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: [
+      'Authorization',
+      'User-Agent',
+      'Content-Type',
+      'Accept',
+      'Origin',
+      'Referer',
+      'Accept-Encoding',
+      'Pragma',
+    ],
+  })
+);
 
 // v1 api routes
 app.use('/v1', routes);

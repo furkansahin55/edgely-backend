@@ -4,6 +4,6 @@ services:
   edgely:
     container_name: edgely-backend-dev
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@host.docker.internal:5432/edgely?schema=public
+      - DATABASE_URL=postgresql://postgres:postgres@host.docker.internal:5432/edgely?schema=public&pgbouncer=true
     command: yarn dev -L
 

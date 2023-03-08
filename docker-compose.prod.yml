@@ -3,7 +3,7 @@ version: '3'
 services:
   edgely:
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@pgbouncer:5432/edgely?schema=public
+      - DATABASE_URL=postgresql://postgres:postgres@pgbouncer:5432/edgely?schema=public&pgbouncer=true
       - REDIS_HOST=redis
       - REDIS_PORT=6379
     container_name: edgely-backend-prod

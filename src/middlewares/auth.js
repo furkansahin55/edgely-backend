@@ -13,7 +13,7 @@ const verifyCallback = (req, resolve, reject, requiredRights) => async (err, use
 
   if (requiredRights.length) {
     user.role = 'free';
-    if (user.premium_finish_timestamp > BigInt(moment.now())) {
+    if (user.premium_finish_date > moment.now()) {
       user.role = 'premium';
     }
     const userRights = roleRights.get(user.role);

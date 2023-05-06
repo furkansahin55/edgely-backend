@@ -1,4 +1,4 @@
-const { alertsModel } = require('../models');
+const { alertsRepository } = require('../repositories');
 
 /**
  * Returns alerts for given address
@@ -6,7 +6,7 @@ const { alertsModel } = require('../models');
  * @returns {Object}
  */
 const getAlertsByUser = async (user) => {
-  const result = await alertsModel.getAlertsByUser(user);
+  const result = await alertsRepository.getAlertsByUser(user);
   return result;
 };
 
@@ -19,8 +19,8 @@ const getAlertsByUser = async (user) => {
 const createAlert = async (data, user) => {
   // eslint-disable-next-line no-param-reassign
   data.user = user;
-  const result = await alertsModel.createAlert(data);
-  return result;
+  const result = await alertsRepository.createAlert(data);
+  return result.dataValues;
 };
 
 /**
@@ -28,7 +28,7 @@ const createAlert = async (data, user) => {
  * @returns {Object}
  */
 const deleteAlert = async (id, user) => {
-  await alertsModel.deleteAlert(id, user);
+  await alertsRepository.deleteAlert(id, user);
   return true;
 };
 
@@ -39,7 +39,7 @@ const deleteAlert = async (id, user) => {
  * @returns {Object}
  */
 const getAlertTypes = async () => {
-  const result = await alertsModel.getAlertTypes();
+  const result = await alertsRepository.getAlertTypes();
   return result;
 };
 
@@ -50,7 +50,7 @@ const getAlertTypes = async () => {
  * @returns {Object}
  */
 const getDeliveryChannelTypes = async () => {
-  const result = await alertsModel.getDeliveryChannelTypes();
+  const result = await alertsRepository.getDeliveryChannelTypes();
   return result;
 };
 
@@ -62,7 +62,7 @@ const getDeliveryChannelTypes = async () => {
  * @param {String} id
  * */
 const updateAlert = async (user, data) => {
-  const result = await alertsModel.updateAlert(user, data);
+  const result = await alertsRepository.updateAlert(user, data);
   return result;
 };
 

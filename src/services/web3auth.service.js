@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const ethers = require('ethers');
 const config = require('../config/config');
 const ApiError = require('../utils/ApiError');
-const { usersModel, tokenModel } = require('../models');
+const { usersRepository, tokenRepository } = require('../repositories');
 const { tokenTypes } = require('../config/tokens');
 const tokenService = require('./token.service');
 
@@ -46,16 +46,13 @@ const verifyNonce = (message, signed, address) => {
 /**
  * Login with given address retrieve user row or create new if not found
  * @param {String} address
- * @returns {import('@prisma/client').users}
  */
 const loginWithSignVerifiedAddress = async (address) => {
-  let user = await usersModel.getByAddress(address);
+  let user = await usersRepository.getByAddress(address);
   if (!user) {
-    user = await usersModel.create(address);
+    user = await usersRepository.create(address);
   }
-  // bigint to int to serialize data
-  user.premium_finish_timestamp = user.premium_finish_timestamp.toString();
-  return user;
+  return user.dataValues;
 };
 
 /**
@@ -66,7 +63,7 @@ const loginWithSignVerifiedAddress = async (address) => {
 const refreshAuth = async (refreshToken) => {
   try {
     const refreshTokenDoc = await tokenService.verifyToken(refreshToken, tokenTypes.REFRESH);
-    const user = await usersModel.getByAddress(refreshTokenDoc.user);
+    const user = await usersRepository.getByAddress(refreshTokenDoc.user);
     if (!user) {
       throw new Error('User no');
     }
@@ -83,11 +80,15 @@ const refreshAuth = async (refreshToken) => {
  * @returns {Promise}
  */
 const logout = async (refreshToken) => {
-  const refreshTokenDoc = await tokenModel.findOne({ token: refreshToken, type: tokenTypes.REFRESH, blacklisted: false });
+  const refreshTokenDoc = await tokenRepository.findOne({
+    token: refreshToken,
+    type: tokenTypes.REFRESH,
+    blacklisted: false,
+  });
   if (!refreshTokenDoc) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Not found');
   }
-  await tokenModel.remove(refreshTokenDoc.token);
+  await tokenRepository.remove(refreshTokenDoc.token);
 };
 
 module.exports = {

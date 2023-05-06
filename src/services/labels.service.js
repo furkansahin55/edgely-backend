@@ -1,11 +1,11 @@
-const { labelsModel } = require('../models');
+const { labelsRepository } = require('../repositories');
 
 /**
  * Returns labels for given address
  * @returns {Object}
  */
 const getLabels = async (address) => {
-  const result = await labelsModel.getLabels(address);
+  const result = await labelsRepository.getLabels(address);
   return result;
 };
 
@@ -18,8 +18,8 @@ const upsertLabels = async (address, data) => {
     // eslint-disable-next-line no-param-reassign
     element.user = address;
   });
-  await labelsModel.deleteLabels(address);
-  await labelsModel.insertLabels(data);
+  await labelsRepository.deleteLabels(address);
+  await labelsRepository.insertLabels(data);
   return true;
 };
 

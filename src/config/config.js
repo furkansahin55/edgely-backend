@@ -18,6 +18,8 @@ const envVarsSchema = Joi.object()
     EMAIL_FROM: Joi.string().description('the from field in the emails sent by the app'),
     REDIS_HOST: Joi.string().description('host for redis server'),
     REDIS_PORT: Joi.number().description('port for redis server'),
+    DATABASE_URL: Joi.string().required().description('Database URL'),
+    NETWORKS: Joi.string().required().description('enabled networks'),
   })
   .unknown();
 
@@ -51,4 +53,6 @@ module.exports = {
     port: envVars.REDIS_PORT,
     host: envVars.REDIS_HOST,
   },
+  db: envVars.DATABASE_URL,
+  networks: envVars.NETWORKS.split(','),
 };

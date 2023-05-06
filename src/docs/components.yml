@@ -5,7 +5,7 @@ components:
       properties:
         address:
           type: string
-        premium_finish_timestamp:
+        premium_finish_date:
           type: string
       example:
         id: '0xb14b0F684de41092E1Dd6E351b60A9AD0c60360b'

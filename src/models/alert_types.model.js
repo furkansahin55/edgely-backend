@@ -2,35 +2,30 @@ const { DataTypes } = require('sequelize');
 
 module.exports = (sequelize) => {
   sequelize.define(
-    'labels',
+    'alert_types',
     {
       id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.TEXT,
         primaryKey: true,
         allowNull: false,
-        autoIncrement: true,
       },
-      network: {
+      name: {
         type: DataTypes.TEXT,
         allowNull: false,
       },
-      address: {
-        type: DataTypes.TEXT,
+      active: {
+        type: DataTypes.BOOLEAN,
         allowNull: false,
       },
-      type: {
-        type: DataTypes.SMALLINT,
-        allowNull: false,
-      },
-      user: {
-        type: DataTypes.TEXT,
-        allowNull: false,
+      class: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
       },
     },
     {
       timestamps: false,
       freezeTableName: true,
-      tableName: 'labels',
+      tableName: 'alert_types',
     }
   );
 };

@@ -3,13 +3,15 @@ const { mintingService } = require('../services');
 
 const getMintingTable = catchAsync(async (req, res) => {
   const { timeFrame } = req.params;
-  const table = await mintingService.getMintingTable(timeFrame);
+  const { network } = req.query;
+  const table = await mintingService.getMintingTable(network, timeFrame);
   res.send(table);
 });
 
 const getMintingLabelsTable = catchAsync(async (req, res) => {
   const { timeFrame } = req.params;
-  const table = await mintingService.getMintingLabelsTable(timeFrame, req.user.address);
+  const { network } = req.query;
+  const table = await mintingService.getMintingLabelsTable(network, timeFrame, req.user.address);
   res.send(table);
 });
 

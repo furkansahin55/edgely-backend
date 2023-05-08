@@ -1,4 +1,5 @@
 const httpStatus = require('http-status');
+const { QueryTypes } = require('sequelize');
 const ApiError = require('../utils/ApiError');
 const CacheSingleton = require('../utils/Cache');
 const sequelize = require('../models');
@@ -35,6 +36,7 @@ const getCollectionInfo = async (network, address) => {
     `,
       {
         bind: [address],
+        type: QueryTypes.SELECT,
       }
     );
     await cache.set(cacheId, result, tags);
@@ -82,6 +84,7 @@ const get24hInfo = async (network, address) => {
     `,
       {
         bind: [address],
+        type: QueryTypes.SELECT,
       }
     );
     await cache.set(cacheId, result, tags);
@@ -112,6 +115,7 @@ const getVpsGraph = async (network, timeframe, address) => {
     `,
       {
         bind: [address],
+        type: QueryTypes.SELECT,
       }
     );
     await cache.set(cacheId, result, tags);
@@ -140,6 +144,7 @@ const getTransactions = async (network, address) => {
     `,
       {
         bind: [address],
+        type: QueryTypes.SELECT,
       }
     );
     await cache.set(cacheId, result, tags);
@@ -162,6 +167,7 @@ const feedQuery = async (network, address, limit, sort, blockNumberCursor = fals
     ORDER BY block_number ${sort}, log_index ${sort} LIMIT $2;`,
     {
       bind: [address, limit],
+      type: QueryTypes.SELECT,
     }
   );
 };
@@ -290,6 +296,7 @@ const getMintsChart = async (network, address) => {
     `,
       {
         bind: [address],
+        type: QueryTypes.SELECT,
       }
     );
     await cache.set(cacheId, result, tags);
@@ -326,6 +333,7 @@ const getMintsTable = async (network, address) => {
       `,
       {
         bind: [address],
+        type: QueryTypes.SELECT,
       }
     );
     cache.set(cacheId, result, tags);
@@ -358,6 +366,7 @@ const getHoldersChartByCount = async (network, address) => {
     `,
       {
         bind: [address],
+        type: QueryTypes.SELECT,
       }
     );
     await cache.set(cacheId, result, tags);
@@ -389,6 +398,7 @@ const getHoldersChartByDays = async (network, address) => {
     `,
       {
         bind: [address],
+        type: QueryTypes.SELECT,
       }
     );
     await cache.set(cacheId, result, tags);
@@ -419,6 +429,7 @@ const getRelationsWithCollections = async (network, address) => {
     `,
       {
         bind: [address],
+        type: QueryTypes.SELECT,
       }
     );
     result = result.filter((item) => item.address !== address);

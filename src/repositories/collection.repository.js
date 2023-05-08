@@ -5,7 +5,6 @@ const CacheSingleton = require('../utils/Cache');
 const sequelize = require('../models');
 
 const cache = new CacheSingleton();
-
 const getCollectionInfo = async (network, address) => {
   try {
     const cacheId = `req:collection:info:${address}`;
@@ -15,7 +14,7 @@ const getCollectionInfo = async (network, address) => {
       return cacheResult;
     }
 
-    const result = await sequelize.query(
+    let result = await sequelize.query(
       `
       SELECT
       c.address,
@@ -39,6 +38,7 @@ const getCollectionInfo = async (network, address) => {
         type: QueryTypes.SELECT,
       }
     );
+    result = result?.[0];
     await cache.set(cacheId, result, tags);
     return result;
   } catch (error) {
@@ -54,7 +54,7 @@ const get24hInfo = async (network, address) => {
     if (cacheResult) {
       return cacheResult;
     }
-    const result = await sequelize.query(
+    let result = await sequelize.query(
       `
       WITH prior_frame AS (
         SELECT address, MIN(price_as_eth) as floor, COUNT(price_as_eth) as sales, AVG(price_as_eth) as average, SUM(price_as_eth) as volume FROM ${network}.nft_sales 
@@ -87,6 +87,7 @@ const get24hInfo = async (network, address) => {
         type: QueryTypes.SELECT,
       }
     );
+    result = result?.[0];
     await cache.set(cacheId, result, tags);
     return result;
   } catch (error) {

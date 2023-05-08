@@ -12,8 +12,6 @@ services:
       - '3000:3000'
     volumes:
       - .:/usr/src/edgely
-    depends_on:
-      - "redis"
     command: yarn start
 
   nginx:

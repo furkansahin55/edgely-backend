@@ -16,6 +16,7 @@
     "prettier:fix": "prettier --write **/*.js",
     "docker:up": "docker-compose up",
     "docker:down": "docker-compose down",
+    "docker:restart": "docker-compose down && docker-compose up -d",
     "prepare": "husky install"
   },
   "dependencies": {

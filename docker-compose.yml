@@ -13,6 +13,9 @@ services:
     volumes:
       - .:/usr/src/edgely
     command: yarn start
+    extra_hosts:
+      - host.docker.internal:host-gateway
+
 
   nginx:
     image: 'jc21/nginx-proxy-manager:latest'

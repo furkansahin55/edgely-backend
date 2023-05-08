@@ -16,17 +16,6 @@ services:
       - "redis"
     command: yarn start
 
-  redis:
-    image: 'redis:7-alpine'
-    ports:
-      - '6379:6379'
-    expose:
-      - 6379
-    environment:
-      - ALLOW_EMPTY_PASSWORD=yes
-    volumes: 
-      - ./redis:/data
-
   nginx:
     image: 'jc21/nginx-proxy-manager:latest'
     ports:

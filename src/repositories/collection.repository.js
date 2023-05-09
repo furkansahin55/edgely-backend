@@ -316,19 +316,11 @@ const getMintsTable = async (network, address) => {
 
     const result = await sequelize.query(
       `
-      WITH mints_table AS (
-        SELECT DISTINCT ON (address, token_id) block_number, log_index, address, token_id, transaction_hash, from_address as to_address FROM ${network}.nft_sales 
-        UNION ALL 
-        SELECT block_number, log_index, address, token_id, transaction_hash, to_address FROM ${network}.nft_mints
-        WHERE address = $1
-        ORDER BY address, token_id, block_number, log_index
-      )
-      SELECT to_address, COUNT(log_index) as mints 
-      FROM (SELECT DISTINCT ON(address, token_id) * 
-      FROM mints_table ) t1 
-      GROUP BY to_address 
-      ORDER BY mints
-      DESC LIMIT 20;
+      SELECT to_address, COUNT(log_index) as mints FROM ethereum.nft_mints
+      WHERE address = $1
+      GROUP BY to_address
+      ORDER BY mints DESC
+      LIMIT 25
       `,
       {
         bind: [address],

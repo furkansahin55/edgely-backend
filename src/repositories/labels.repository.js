@@ -8,7 +8,7 @@ const getLabels = async (address) => {
       where: {
         user: address,
       },
-      attributes: ['address', 'type'],
+      attributes: ['address', 'type', 'network'],
     });
     return result;
   } catch (error) {

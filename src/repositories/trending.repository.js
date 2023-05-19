@@ -19,7 +19,7 @@ const getTrendingTable = async (network, minutes) => {
 const getTrendingLabelTable = async (network, minutes, user) => {
   try {
     const cacheId = `req:trendingLabel:${minutes}:${user}`;
-    const tags = ['block'];
+    const tags = ['sales'];
     const cacheResult = await cache.get(cacheId);
     if (cacheResult) {
       return cacheResult;

@@ -19,7 +19,7 @@ const getMintingTable = async (network, minutes) => {
 const getMintingLabelTable = async (network, minutes, user) => {
   try {
     const cacheId = `req:mintingLabel:${minutes}:${user}`;
-    const tags = ['block'];
+    const tags = ['mints'];
     const cacheResult = await cache.get(cacheId);
     if (cacheResult) {
       return cacheResult;

@@ -26,3 +26,5 @@ services:
     volumes:
       - ./nginxproxymanager:/data
       - ./letsencrypt:/etc/letsencrypt
+    extra_hosts:
+      - host.docker.internal:host-gateway

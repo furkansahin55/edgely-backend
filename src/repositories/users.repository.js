@@ -22,6 +22,7 @@ const create = async (address) => {
     const lowerAddress = address.toLowerCase();
     const user = await models.users.create({
       address: lowerAddress,
+      premium_finish_date: '2024-05-08 21:07:46.555505+00',
     });
     return user;
   } catch (error) {

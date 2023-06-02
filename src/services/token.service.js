@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const moment = require('moment');
 const config = require('../config/config');
-const { tokenModel } = require('../models');
+const { tokenRepository } = require('../repositories');
 const { tokenTypes } = require('../config/tokens');
 
 /**
@@ -32,14 +32,14 @@ const generateToken = (userAdress, expires, type, secret = config.jwt.secret) =>
  * @returns {Promise<Token>}
  */
 const saveToken = async (token, userAdress, expires, type, blacklisted = false) => {
-  const tokenDoc = await tokenModel.create({
+  const tokenDoc = await tokenRepository.create({
     token,
     user: userAdress,
     expires: expires.toDate(),
     type,
     blacklisted,
   });
-  return tokenDoc;
+  return tokenDoc.dataValues;
 };
 
 /**
@@ -50,7 +50,7 @@ const saveToken = async (token, userAdress, expires, type, blacklisted = false) 
  */
 const verifyToken = async (token, type) => {
   const payload = jwt.verify(token, config.jwt.secret);
-  const tokenDoc = await tokenModel.findOne({ token, type, user: payload.sub, blacklisted: false });
+  const tokenDoc = await tokenRepository.findOne({ token, type, user: payload.sub, blacklisted: false });
   if (!tokenDoc) {
     throw new Error('Token not found');
   }

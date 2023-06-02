@@ -1,10 +1,10 @@
 const request = require('supertest');
 const httpStatus = require('http-status');
 const { ethers } = require('ethers');
-const app = require('../../src/app');
+const testConstants = require('./testConstants');
 // const app = 'http://localhost:3000';
 
-const privateKey = '010257ecd6d7b79b49df775a7ad8af8789387c8f504a421902e9d8ab5249b2f5';
+const { privateKey } = testConstants;
 const wallet = new ethers.Wallet(privateKey);
 
 describe('Auth routes', () => {
@@ -32,7 +32,7 @@ describe('Auth routes', () => {
 
       expect(res.body.user).toEqual({
         address: address.toLowerCase(),
-        premium_finish_timestamp: expect.anything(),
+        premium_finish_date: expect.anything(),
       });
 
       expect(res.body.tokens).toEqual({
@@ -40,6 +40,8 @@ describe('Auth routes', () => {
         refresh: { token: expect.anything(), expires: expect.anything() },
       });
       testSuiteData.tokens = res.body.tokens;
+      // sleep for 1 second to make sure the refresh token will be different
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     });
   });
 

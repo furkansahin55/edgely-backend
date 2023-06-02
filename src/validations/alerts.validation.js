@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const { networks } = require('../config/config');
 
 const createAlert = {
   body: Joi.object()
@@ -8,6 +9,9 @@ const createAlert = {
         .required()
         .keys({
           name: Joi.string().max(42).required(),
+          network: Joi.string()
+            .valid(...networks)
+            .required(),
           type_id: Joi.number().max(10).required(),
           arguments: Joi.object()
             .required()
@@ -32,6 +36,7 @@ const updateAlert = {
         .keys({
           id: Joi.number().required(),
           name: Joi.string().max(42),
+          network: Joi.string().valid(...networks),
           type_id: Joi.number().max(10),
           arguments: Joi.object().keys({
             address: Joi.string().length(42).required(),

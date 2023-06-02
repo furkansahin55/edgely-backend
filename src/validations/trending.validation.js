@@ -1,8 +1,15 @@
 const Joi = require('joi');
+const { networks } = require('../config/config');
 
 const trendingTable = {
   params: Joi.object().keys({
-    timeFrame: Joi.string().valid('1m', '15m', '30m', '1h', '12h', '1d').required(),
+    timeFrame: Joi.number().valid(1, 15, 30, 60, 720, 1440).required(),
+  }),
+
+  query: Joi.object().keys({
+    network: Joi.string()
+      .valid(...networks)
+      .required(),
   }),
 };
 

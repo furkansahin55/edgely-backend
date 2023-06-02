@@ -1,31 +1,31 @@
 const httpStatus = require('http-status');
-const { collectionModel } = require('../models');
+const { collectionRepository } = require('../repositories');
 const ApiError = require('../utils/ApiError');
 
 /**
  * Returns collection info of given address
  * @returns {String}
  */
-const getCollectionInfo = async (address) => {
-  const collectionInfo = await collectionModel.getCollectionInfo(address);
+const getCollectionInfo = async (network, address) => {
+  const collectionInfo = await collectionRepository.getCollectionInfo(network, address);
   if (!collectionInfo) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Collection not found');
   }
   return collectionInfo;
 };
 
-const get24hInfo = async (address) => {
-  const metrics = await collectionModel.get24hInfo(address);
+const get24hInfo = async (network, address) => {
+  const metrics = await collectionRepository.get24hInfo(network, address);
   return metrics;
 };
 
-const getVpsGraph = async (timeframe, address) => {
-  const metrics = await collectionModel.getVpsGraph(timeframe, address);
+const getVpsGraph = async (network, timeframe, address) => {
+  const metrics = await collectionRepository.getVpsGraph(network, timeframe, address);
   return metrics;
 };
 
-const getTransactions = async (address) => {
-  const transactions = await collectionModel.getTransactions(address);
+const getTransactions = async (network, address) => {
+  const transactions = await collectionRepository.getTransactions(network, address);
   return transactions;
 };
 
@@ -40,42 +40,42 @@ const getTransactions = async (address) => {
  * @param {*} take
  * @returns {Object}
  */
-const getFeeds = async (address, blockNumberCursor, logIndexCursor, take) => {
+const getFeeds = async (network, address, blockNumberCursor, logIndexCursor, take) => {
   if (blockNumberCursor < 0) {
-    const feed = await collectionModel.getLastFeedPage(address, take);
+    const feed = await collectionRepository.getLastFeedPage(network, address, take);
     return feed;
   }
   if (blockNumberCursor === 0) {
-    const feed = await collectionModel.getFirstFeedPage(address, take);
+    const feed = await collectionRepository.getFirstFeedPage(network, address, take);
     return feed;
   }
 
-  const feed = await collectionModel.getFeed(address, blockNumberCursor, logIndexCursor, take);
+  const feed = await collectionRepository.getFeed(network, address, blockNumberCursor, logIndexCursor, take);
   return feed;
 };
 
-const getMintsChart = async (address) => {
-  const result = await collectionModel.getMintsChart(address);
+const getMintsChart = async (network, address) => {
+  const result = await collectionRepository.getMintsChart(network, address);
   return result;
 };
 
-const getMintsTable = async (address) => {
-  const result = await collectionModel.getMintsTable(address);
+const getMintsTable = async (network, address) => {
+  const result = await collectionRepository.getMintsTable(network, address);
   return result;
 };
 
-const getHoldersChartByCount = async (address) => {
-  const result = await collectionModel.getHoldersChartByCount(address);
+const getHoldersChartByCount = async (network, address) => {
+  const result = await collectionRepository.getHoldersChartByCount(network, address);
   return result;
 };
 
-const getHoldersChartByDays = async (address) => {
-  const result = await collectionModel.getHoldersChartByDays(address);
+const getHoldersChartByDays = async (network, address) => {
+  const result = await collectionRepository.getHoldersChartByDays(network, address);
   return result;
 };
 
-const getRelationsWithCollection = async (address) => {
-  const result = await collectionModel.getRelationsWithCollections(address);
+const getRelationsWithCollection = async (network, address) => {
+  const result = await collectionRepository.getRelationsWithCollections(network, address);
   return result;
 };
 

@@ -12,9 +12,7 @@ yarn-error.log
 coverage
 
 # Redis and postgres volumes
-redis
 postgres
 nginxproxymanager
 letsencrypt
 pgbouncer
-csv

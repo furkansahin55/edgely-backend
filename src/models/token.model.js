@@ -1,46 +1,41 @@
-const httpStatus = require('http-status');
-const PrismaClientSingleton = require('../utils/PrismaClient');
-const ApiError = require('../utils/ApiError');
+const { DataTypes } = require('sequelize');
 
-const prisma = new PrismaClientSingleton();
-
-const findOne = async (data) => {
-  try {
-    const token = await prisma.token.findFirst({
-      where: data,
-    });
-    return token;
-  } catch (error) {
-    throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'DB Error', true, error.message);
-  }
-};
-
-const create = async (data) => {
-  try {
-    const token = await prisma.token.create({
-      data,
-    });
-    return token;
-  } catch (error) {
-    throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'DB Error', true, error.message);
-  }
-};
-
-const remove = async (token) => {
-  try {
-    const res = await prisma.token.delete({
-      where: {
-        token,
+module.exports = (sequelize) => {
+  sequelize.define(
+    'token',
+    {
+      token: {
+        type: DataTypes.TEXT,
+        primaryKey: true,
+        allowNull: false,
       },
-    });
-    return res;
-  } catch (error) {
-    throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, 'DB Error', true, error.message);
-  }
-};
-
-module.exports = {
-  create,
-  findOne,
-  remove,
+      user: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+        references: {
+          model: 'users',
+          key: 'address',
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      },
+      type: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+      },
+      expires: {
+        type: DataTypes.DATE,
+        allowNull: false,
+      },
+      blacklisted: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+      },
+    },
+    {
+      timestamps: false,
+      freezeTableName: true,
+      tableName: 'token',
+    }
+  );
 };

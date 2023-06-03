@@ -3,13 +3,15 @@
     {
       "name": "edgely-backend",
       "script": "src/index.js",
+      "log_file": "./logs/combined.log",
+      "error_file": "./logs/combined.log",
+      "out_file": "./logs/combined.log",
+      "combine_logs": true,
       "instances": 1,
       "autorestart": true,
       "watch": false,
       "time": true,
-      "env": {
-        "NODE_ENV": "production"
-      }
+      "exec_mode": "fork_mode"
     }
   ]
 }

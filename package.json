@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "start": "pm2 kill && pm2 start ecosystem.config.json --no-daemon --node-args='--max-old-space-size=4096'",
+    "start-no-docker": "pm2 start ecosystem.config.json",
     "dev": "cross-env NODE_ENV=development nodemon src/index.js",
     "test": "jest -i --colors --verbose --detectOpenHandles",
     "test:watch": "jest -i --watch",

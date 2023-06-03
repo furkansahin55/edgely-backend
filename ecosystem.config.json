@@ -4,7 +4,6 @@
       "name": "edgely-backend",
       "script": "src/index.js",
       "log_file": "./logs/combined.log",
-      "error_file": "./logs/combined.log",
       "combine_logs": true,
       "instances": 1,
       "autorestart": true,

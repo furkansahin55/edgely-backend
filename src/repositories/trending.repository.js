@@ -36,13 +36,13 @@ const getTrendingLabelTable = async (network, minutes, user) => {
           WHERE block_timestamp > NOW() - ($1 * 2) * INTERVAL '1 MINUTES' 
           AND block_timestamp < NOW() - $1 * INTERVAL '1 MINUTES' 
           AND price_as_eth IS NOT NULL AND price_as_eth > 0
-          AND to_address IN (SELECT w.to_address FROM ${network}.nft_wallets w)
+          AND to_address IN (SELECT w.to_address FROM wallets w)
           GROUP BY s1.address)
       , frame AS (
           SELECT s2.address, MIN(price_as_eth) as floor, COUNT(price_as_eth) as sales, AVG(price_as_eth) as average, SUM(price_as_eth) as volume FROM ${network}.nft_sales s2 
           WHERE block_timestamp > NOW() - $1 * INTERVAL '1 MINUTES' 
           AND price_as_eth IS NOT NULL AND price_as_eth > 0
-          AND to_address IN (SELECT w.to_address FROM ${network}.nft_wallets w)
+          AND to_address IN (SELECT w.to_address FROM wallets w)
           GROUP BY s2.address)
       SELECT
       f.address,

@@ -36,12 +36,12 @@ const getMintingLabelTable = async (network, minutes, user) => {
 		    SELECT m1.address, COUNT(price_as_eth) as mints, COUNT(DISTINCT (to_address)) as minters, SUM(price_as_eth) as volume FROM ${network}.nft_mints m1 
 		    WHERE block_timestamp > NOW() - $1 * INTERVAL '1 MINUTES' 
 		    AND block_timestamp < NOW() - ($1 * 2) * INTERVAL '1 MINUTES' 
-		    AND to_address IN (SELECT w.to_address FROM ${network}.nft_wallets w)
+		    AND to_address IN (SELECT w.to_address FROM wallets w)
 		    GROUP BY m1.address)
 		, frame AS (
 		    SELECT m2.address, COUNT(price_as_eth) as mints, COUNT(DISTINCT (to_address)) as minters, SUM(price_as_eth) as volume FROM ${network}.nft_mints m2
 		    WHERE block_timestamp > NOW() - $1 * INTERVAL '1 MINUTES' 
-		    AND to_address IN (SELECT w.to_address FROM ${network}.nft_wallets w)
+		    AND to_address IN (SELECT w.to_address FROM wallets w)
 		    GROUP BY m2.address)
       SELECT 
       f.address,

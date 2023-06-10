@@ -15,7 +15,7 @@ router.get('/info/:address', auth('collection'), validate(addressValidation), co
 
 router.get('/24h/:address', auth('collection'), validate(addressValidation), collectionController.get24hInfo);
 
-router.get('/vps/:timeframe/:address', auth('collection'), validate(vpsValidation), collectionController.getVpsGraph);
+router.get('/vps/:address', auth('collection'), validate(vpsValidation), collectionController.getVpsGraph);
 
 router.get('/txs/:address', auth('collection'), validate(transactionsValidation), collectionController.getTransactions);
 

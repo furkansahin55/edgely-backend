@@ -34,19 +34,19 @@ const vpsValidation = {
       'timeframe',
       {
         is: '1d',
-        then: Joi.integer().valid(5).required(),
+        then: Joi.number().valid(5).required(),
       },
       {
         is: '7d',
-        then: Joi.integer().valid(30).required(),
+        then: Joi.number().valid(30).required(),
       },
       {
         is: '90d',
-        then: Joi.integer().valid(300).required(),
+        then: Joi.number().valid(300).required(),
       },
       {
         is: '365d',
-        then: Joi.integer().valid(1440).required(),
+        then: Joi.number().valid(1440).required(),
       }
     ),
   }),

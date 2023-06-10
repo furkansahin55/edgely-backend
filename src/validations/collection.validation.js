@@ -22,7 +22,7 @@ const transactionsValidation = {
     network: Joi.string()
       .valid(...networks)
       .required(),
-    timeframe: Joi.string().valid('1d', '7d', '90d', '365d', 'all').required(),
+    timeframe: Joi.string().valid('1', '7', '90', '365', 'all').required(),
   }),
 };
 

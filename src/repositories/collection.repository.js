@@ -135,13 +135,14 @@ const getTransactions = async (network, address, timeframe) => {
     if (cacheResult) {
       return cacheResult;
     }
+    const whereQuery = timeframe !== 'all' ? `AND block_timestamp > NOW() - INTERVAL '${timeframe} DAYS'` : '';
     const result = await sequelize.query(
       `
       SELECT ${network}.to_utc(block_timestamp) as block_timestamp, address, to_address as buyer, ${network}.wei_to_eth(price_as_eth) as price
       FROM ${network}.nft_sales
-      WHERE block_timestamp > NOW() - INTERVAL '${timeframe} DAYS'
+      WHERE address = $1 
+      ${whereQuery} 
       AND price_as_eth IS NOT NULL
-      AND address = $1
       ORDER BY RANDOM()
       LIMIT 200;
     `,

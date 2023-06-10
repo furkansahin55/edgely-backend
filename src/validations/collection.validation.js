@@ -30,7 +30,7 @@ const vpsValidation = {
   params: Joi.object().keys({
     address: Joi.string().required(),
     timeframe: Joi.string().valid('1d', '7d', '90d', '365d', 'all').required(),
-    interval: Joi.string().when(
+    interval: Joi.number().when(
       'timeframe',
       {
         is: '1d',

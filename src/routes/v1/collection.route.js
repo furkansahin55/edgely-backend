@@ -1,7 +1,12 @@
 const express = require('express');
 const collectionController = require('../../controllers/collection.controller');
 const validate = require('../../middlewares/validate');
-const { addressValidation, vpsValidation, feedValidation } = require('../../validations/collection.validation');
+const {
+  addressValidation,
+  vpsValidation,
+  feedValidation,
+  transactionsValidation,
+} = require('../../validations/collection.validation');
 const auth = require('../../middlewares/auth');
 
 const router = express.Router();
@@ -12,7 +17,7 @@ router.get('/24h/:address', auth('collection'), validate(addressValidation), col
 
 router.get('/vps/:timeframe/:address', auth('collection'), validate(vpsValidation), collectionController.getVpsGraph);
 
-router.get('/txs/:address', auth('collection'), validate(addressValidation), collectionController.getTransactions);
+router.get('/txs/:address', auth('collection'), validate(transactionsValidation), collectionController.getTransactions);
 
 router.get('/feed/:address', auth('collection'), validate(feedValidation), collectionController.getFeeds);
 

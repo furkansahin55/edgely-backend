@@ -96,7 +96,7 @@ const get24hInfo = async (network, address) => {
 };
 
 // TODO: make timeframe dynamic minutes
-const getVpsGraph = async (network, timeframe, address) => {
+const getVpsGraph = async (network, timeframe, address, interval) => {
   try {
     const cacheId = `req:collection:vps:${timeframe}:${address}`;
     const tags = [`sales`];
@@ -104,13 +104,14 @@ const getVpsGraph = async (network, timeframe, address) => {
     if (cacheResult) {
       return cacheResult;
     }
+    const whereQuery = timeframe !== 'all' ? `AND block_timestamp > NOW() - INTERVAL '${timeframe} DAYS'` : '';
     const result = await sequelize.query(
       `
-      SELECT date_trunc('minutes', ${network}.to_utc(block_timestamp)) +	 date_part('minute', ${network}.to_utc(block_timestamp))::int / 5 * interval '5 min' as block_timestamp, address, ${network}.wei_to_eth(MIN(price_as_eth)) as floor, ${network}.wei_to_eth(MAX(price_as_eth)) as max, COUNT(price_as_eth) as sales, ${network}.wei_to_eth(AVG(price_as_eth)) as average, ${network}.wei_to_eth(SUM(price_as_eth)) as volume
+      SELECT date_trunc('minutes', ${network}.to_utc(block_timestamp)) +	 date_part('minute', ${network}.to_utc(block_timestamp))::int / ${interval} * interval '${interval} min' as block_timestamp, address, ${network}.wei_to_eth(MIN(price_as_eth)) as floor, ${network}.wei_to_eth(MAX(price_as_eth)) as max, COUNT(price_as_eth) as sales, ${network}.wei_to_eth(AVG(price_as_eth)) as average, ${network}.wei_to_eth(SUM(price_as_eth)) as volume
       FROM ${network}.nft_sales 
-      WHERE block_timestamp > NOW() - INTERVAL '1 DAYS'
+      WHERE address = $1 
+      ${whereQuery} 
       AND price_as_eth IS NOT NULL
-      AND address = $1
       GROUP BY address, 1
       ORDER BY address, 1;
     `,
@@ -126,7 +127,7 @@ const getVpsGraph = async (network, timeframe, address) => {
   }
 };
 
-const getTransactions = async (network, address) => {
+const getTransactions = async (network, address, timeframe) => {
   try {
     const cacheId = `req:collection:txs:${address}`;
     const tags = [`sales`];
@@ -138,9 +139,10 @@ const getTransactions = async (network, address) => {
       `
       SELECT ${network}.to_utc(block_timestamp) as block_timestamp, address, to_address as buyer, ${network}.wei_to_eth(price_as_eth) as price
       FROM ${network}.nft_sales
-      WHERE price_as_eth IS NOT NULL
+      WHERE block_timestamp > NOW() - INTERVAL '${timeframe} DAYS'
+      AND price_as_eth IS NOT NULL
       AND address = $1
-      ORDER BY block_timestamp DESC
+      ORDER BY RANDOM()
       LIMIT 200;
     `,
       {

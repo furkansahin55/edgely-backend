@@ -13,10 +13,42 @@ const addressValidation = {
   }),
 };
 
+const transactionsValidation = {
+  params: Joi.object().keys({
+    address: Joi.string().required(),
+    timeframe: Joi.string().valid('1d', '7d', '90d', '365d', 'all').required(),
+  }),
+
+  query: Joi.object().keys({
+    network: Joi.string()
+      .valid(...networks)
+      .required(),
+  }),
+};
+
 const vpsValidation = {
   params: Joi.object().keys({
     address: Joi.string().required(),
-    timeframe: Joi.string().valid('1d', '7d', '90d', 'all').required(),
+    timeframe: Joi.string().valid('1d', '7d', '90d', '365d', 'all').required(),
+    interval: Joi.string().when(
+      'timeframe',
+      {
+        is: '1d',
+        then: Joi.integer().valid(5).required(),
+      },
+      {
+        is: '7d',
+        then: Joi.integer().valid(30).required(),
+      },
+      {
+        is: '90d',
+        then: Joi.integer().valid(300).required(),
+      },
+      {
+        is: '365d',
+        then: Joi.integer().valid(1440).required(),
+      }
+    ),
   }),
 
   query: Joi.object().keys({
@@ -44,4 +76,5 @@ module.exports = {
   addressValidation,
   vpsValidation,
   feedValidation,
+  transactionsValidation,
 };

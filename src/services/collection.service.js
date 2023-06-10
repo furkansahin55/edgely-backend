@@ -19,13 +19,13 @@ const get24hInfo = async (network, address) => {
   return metrics;
 };
 
-const getVpsGraph = async (network, timeframe, address) => {
-  const metrics = await collectionRepository.getVpsGraph(network, timeframe, address);
+const getVpsGraph = async (network, timeframe, address, interval) => {
+  const metrics = await collectionRepository.getVpsGraph(network, timeframe, address, interval);
   return metrics;
 };
 
-const getTransactions = async (network, address) => {
-  const transactions = await collectionRepository.getTransactions(network, address);
+const getTransactions = async (network, address, timeframe) => {
+  const transactions = await collectionRepository.getTransactions(network, address, timeframe);
   return transactions;
 };
 

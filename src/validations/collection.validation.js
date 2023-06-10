@@ -35,7 +35,7 @@ const vpsValidation = {
     network: Joi.string()
       .valid(...networks)
       .required(),
-    timeframe: Joi.number().valid('1', '7', '90', '365', 'all').required(),
+    timeframe: Joi.string().valid('1', '7', '90', '365', 'all').required(),
     interval: Joi.number()
       .required()
       .when(

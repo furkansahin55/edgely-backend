@@ -98,7 +98,7 @@ const get24hInfo = async (network, address) => {
 // TODO: make timeframe dynamic minutes
 const getVpsGraph = async (network, timeframe, address, interval) => {
   try {
-    const cacheId = `req:collection:vps:${timeframe}:${address}`;
+    const cacheId = `req:collection:vps:${address}:${timeframe}:${interval}`;
     const tags = [`sales`];
     const cacheResult = await cache.get(cacheId);
     if (cacheResult) {
@@ -129,7 +129,7 @@ const getVpsGraph = async (network, timeframe, address, interval) => {
 
 const getTransactions = async (network, address, timeframe) => {
   try {
-    const cacheId = `req:collection:txs:${address}`;
+    const cacheId = `req:collection:txs:${address}:${timeframe}`;
     const tags = [`sales`];
     const cacheResult = await cache.get(cacheId);
     if (cacheResult) {

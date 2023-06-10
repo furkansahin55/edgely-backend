@@ -16,9 +16,9 @@ const get24hInfo = catchAsync(async (req, res) => {
 });
 
 const getVpsGraph = catchAsync(async (req, res) => {
-  const { network, interval, timeframe } = req.query;
+  const { network, timeframe } = req.query;
   const { address } = req.params;
-  const data = await collectionService.getVpsGraph(network, timeframe, address, interval);
+  const data = await collectionService.getVpsGraph(network, timeframe, address);
   res.send(data);
 });
 

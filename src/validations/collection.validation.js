@@ -36,33 +36,6 @@ const vpsValidation = {
       .valid(...networks)
       .required(),
     timeframe: Joi.string().valid('1', '7', '90', '365', 'all').required(),
-    interval: Joi.number()
-      .required()
-      .when(
-        'timeframe',
-        {
-          is: '1',
-          then: Joi.number().valid(5).required(),
-        },
-        {
-          is: '7',
-          then: Joi.number().valid(30).required(),
-        },
-        {
-          is: '90',
-          then: Joi.number().valid(300).required(),
-        },
-        {
-          is: '365',
-          then: Joi.number().valid(1440).required(),
-        },
-        {
-          is: 'all',
-          then: Joi.number()
-            .valid(1440 * 7)
-            .required(),
-        }
-      ),
   }),
 };
 

@@ -19,8 +19,8 @@ const get24hInfo = async (network, address) => {
   return metrics;
 };
 
-const getVpsGraph = async (network, timeframe, address, interval) => {
-  const metrics = await collectionRepository.getVpsGraph(network, timeframe, address, interval);
+const getVpsGraph = async (network, timeframe, address) => {
+  const metrics = await collectionRepository.getVpsGraph(network, timeframe, address);
   return metrics;
 };
 

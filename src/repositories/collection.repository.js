@@ -96,14 +96,16 @@ const get24hInfo = async (network, address) => {
 };
 
 // TODO: make timeframe dynamic minutes
-const getVpsGraph = async (network, timeframe, address, interval) => {
+const getVpsGraph = async (network, timeframe, address) => {
   try {
-    const cacheId = `req:collection:vps:${address}:${timeframe}:${interval}`;
+    const cacheId = `req:collection:vps:${address}:${timeframe}`;
     const tags = [`sales`];
     const cacheResult = await cache.get(cacheId);
     if (cacheResult) {
       return cacheResult;
     }
+    const timeframeToInterval = { 1: 5, 7: 30, 90: 300, all: 1440 };
+    const interval = timeframeToInterval[timeframe];
     const whereQuery = timeframe !== 'all' ? `AND block_timestamp > NOW() - INTERVAL '${timeframe} DAYS'` : '';
     const result = await sequelize.query(
       `

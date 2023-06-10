@@ -109,8 +109,14 @@ const getVpsGraph = async (network, timeframe, address) => {
     const whereQuery = timeframe !== 'all' ? `AND block_timestamp > NOW() - INTERVAL '${timeframe} DAYS'` : '';
     const result = await sequelize.query(
       `
-      SELECT date_trunc('minutes', ${network}.to_utc(block_timestamp)) +	 date_part('minute', ${network}.to_utc(block_timestamp))::int / ${interval} * interval '${interval} min' as block_timestamp, address, ${network}.wei_to_eth(MIN(price_as_eth)) as floor, ${network}.wei_to_eth(MAX(price_as_eth)) as max, COUNT(price_as_eth) as sales, ${network}.wei_to_eth(AVG(price_as_eth)) as average, ${network}.wei_to_eth(SUM(price_as_eth)) as volume
-      FROM ${network}.nft_sales 
+      SELECT date_trunc('minute', block_timestamp) - (extract('minute' from block_timestamp) % ${interval} || ' minutes')::interval AS block_timestamp,
+      address,
+      ${network}.wei_to_eth(MIN(price_as_eth)) as floor,
+      ${network}.wei_to_eth(MAX(price_as_eth)) as max,
+      COUNT(price_as_eth) as sales,
+      ${network}.wei_to_eth(AVG(price_as_eth)) as average,
+      ${network}.wei_to_eth(SUM(price_as_eth)) as volume
+      FROM ${network}.nft_sales
       WHERE address = $1 
       ${whereQuery} 
       AND price_as_eth IS NOT NULL

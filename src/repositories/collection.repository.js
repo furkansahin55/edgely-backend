@@ -104,12 +104,18 @@ const getVpsGraph = async (network, timeframe, address) => {
     if (cacheResult) {
       return cacheResult;
     }
-    const timeframeToInterval = { 1: 5, 7: 30, 90: 300, 365: 1440, all: 1440 };
+    const timeframeToInterval = {
+      1: `SELECT date_trunc('minute', block_timestamp) - (extract('minute' from block_timestamp) % 5 || ' minutes')::interval AS block_timestamp,`,
+      7: `SELECT date_trunc('minute', block_timestamp) - (extract('minute' from block_timestamp) % 30 || ' minutes')::interval AS block_timestamp,`,
+      90: `SELECT date_trunc('hour', block_timestamp) - (extract('hour' from block_timestamp) % 6 || ' hours')::interval AS block_timestamp,`,
+      365: `SELECT date_trunc('day', block_timestamp) - (extract('day' from block_timestamp) % 1 || ' days')::interval AS block_timestamp,`,
+      all: `SELECT date_trunc('day', block_timestamp) - (extract('day' from block_timestamp) % 1 || ' days')::interval AS block_timestamp,`,
+    };
     const interval = timeframeToInterval[timeframe];
     const whereQuery = timeframe !== 'all' ? `AND block_timestamp > NOW() - INTERVAL '${timeframe} DAYS'` : '';
     const result = await sequelize.query(
       `
-      SELECT date_trunc('minute', block_timestamp) - (extract('minute' from block_timestamp) % ${interval} || ' minutes')::interval AS block_timestamp,
+      ${interval}
       address,
       ${network}.wei_to_eth(MIN(price_as_eth)) as floor,
       ${network}.wei_to_eth(MAX(price_as_eth)) as max,

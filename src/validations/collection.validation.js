@@ -16,19 +16,25 @@ const addressValidation = {
 const transactionsValidation = {
   params: Joi.object().keys({
     address: Joi.string().required(),
-    timeframe: Joi.string().valid('1d', '7d', '90d', '365d', 'all').required(),
   }),
 
   query: Joi.object().keys({
     network: Joi.string()
       .valid(...networks)
       .required(),
+    timeframe: Joi.string().valid('1d', '7d', '90d', '365d', 'all').required(),
   }),
 };
 
 const vpsValidation = {
   params: Joi.object().keys({
     address: Joi.string().required(),
+  }),
+
+  query: Joi.object().keys({
+    network: Joi.string()
+      .valid(...networks)
+      .required(),
     timeframe: Joi.string().valid('1d', '7d', '90d', '365d', 'all').required(),
     interval: Joi.number().when(
       'timeframe',
@@ -49,12 +55,6 @@ const vpsValidation = {
         then: Joi.number().valid(1440).required(),
       }
     ),
-  }),
-
-  query: Joi.object().keys({
-    network: Joi.string()
-      .valid(...networks)
-      .required(),
   }),
 };
 

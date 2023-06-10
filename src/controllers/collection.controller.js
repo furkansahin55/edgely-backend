@@ -16,15 +16,15 @@ const get24hInfo = catchAsync(async (req, res) => {
 });
 
 const getVpsGraph = catchAsync(async (req, res) => {
-  const { network } = req.query;
-  const { timeframe, address, interval } = req.params;
+  const { network, interval, timeframe } = req.query;
+  const { address } = req.params;
   const data = await collectionService.getVpsGraph(network, timeframe, address, interval);
   res.send(data);
 });
 
 const getTransactions = catchAsync(async (req, res) => {
-  const { network } = req.query;
-  const { address, timeframe } = req.params;
+  const { network, timeframe } = req.query;
+  const { address } = req.params;
   const data = await collectionService.getTransactions(network, address, timeframe);
   res.send(data);
 });

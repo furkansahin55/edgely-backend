@@ -104,7 +104,7 @@ const getVpsGraph = async (network, timeframe, address) => {
     if (cacheResult) {
       return cacheResult;
     }
-    const timeframeToInterval = { 1: 5, 7: 30, 90: 300, all: 1440 };
+    const timeframeToInterval = { 1: 5, 7: 30, 90: 300, 365: 1440, all: 1440 };
     const interval = timeframeToInterval[timeframe];
     const whereQuery = timeframe !== 'all' ? `AND block_timestamp > NOW() - INTERVAL '${timeframe} DAYS'` : '';
     const result = await sequelize.query(

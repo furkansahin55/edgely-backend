@@ -1,7 +1,7 @@
 const httpStatus = require('http-status');
 const { QueryTypes } = require('sequelize');
 const ApiError = require('../utils/ApiError');
-const CacheSingleton = require('../utils/Cache');
+const CacheSingleton = require('../utils/RedisTag');
 const sequelize = require('../models');
 
 const cache = new CacheSingleton();

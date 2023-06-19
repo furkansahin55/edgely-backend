@@ -1,7 +1,5 @@
 const { mintingRepository } = require('../repositories');
 
-const timeFrameToMinutes = { '1m': 1, '15m': 15, '30m': 30, '1h': 60, '12h': 720, '1d': 1440, '3d': 4320, '7d': 10080 };
-
 /**
  * Returns respective trending table
  * @returns {Object}

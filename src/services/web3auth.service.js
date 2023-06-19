@@ -1,25 +1,23 @@
 const httpStatus = require('http-status');
 const jwt = require('jsonwebtoken');
 const ethers = require('ethers');
+const { v4: uuidv4 } = require('uuid');
 const config = require('../config/config');
 const ApiError = require('../utils/ApiError');
 const { usersRepository, tokenRepository } = require('../repositories');
 const { tokenTypes } = require('../config/tokens');
 const tokenService = require('./token.service');
+const redisIO = require('../utils/RedisIO');
 
 /**
  * Create a nonce and return it
  * @returns {String}
  */
 const getNonce = () => {
-  const nonce = jwt.sign(
-    {
-      date: Date.now(),
-    },
-    config.jwt.secret,
-    { expiresIn: config.jwt.nonceExpiration }
-  );
-
+  const nonce = uuidv4();
+  // redis save nonce under key 'nonces' with timeout of 1 hour
+  redisIO.sadd('nonces', nonce);
+  redisIO.expire('nonces', 3600);
   return nonce;
 };
 
@@ -37,7 +35,10 @@ const verifyNonce = (message, signed, address) => {
       throw new ApiError(httpStatus.UNAUTHORIZED, 'Message not signed by provided address');
     }
     const nonce = message.split('Nonce: ')[1];
-    jwt.verify(nonce, config.jwt.secret);
+    const nonceExists = redisIO.sismember('nonces', nonce);
+    if (!nonceExists) {
+      throw new ApiError(httpStatus.UNAUTHORIZED, 'Nonce not found or expired');
+    }
   } catch (error) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Signature not valid or token expired');
   }

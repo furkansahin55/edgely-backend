@@ -13,6 +13,12 @@ const addressValidation = {
   }),
 };
 
+const searchValidation = {
+  query: Joi.object().keys({
+    query: Joi.string().required(),
+  }),
+};
+
 const transactionsValidation = {
   params: Joi.object().keys({
     address: Joi.string().required(),
@@ -58,4 +64,5 @@ module.exports = {
   vpsValidation,
   feedValidation,
   transactionsValidation,
+  searchValidation,
 };

@@ -72,6 +72,12 @@ const getRelationsWithCollection = catchAsync(async (req, res) => {
   res.send(data);
 });
 
+const searchCollections = catchAsync(async (req, res) => {
+  const { query } = req.query;
+  const data = await collectionService.searchCollections(query);
+  res.send(data);
+});
+
 module.exports = {
   getCollectionInfo,
   get24hInfo,
@@ -83,4 +89,5 @@ module.exports = {
   getHoldersChartByCount,
   getHoldersChartByDays,
   getRelationsWithCollection,
+  searchCollections,
 };

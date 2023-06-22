@@ -79,6 +79,11 @@ const getRelationsWithCollection = async (network, address) => {
   return result;
 };
 
+const searchCollections = async (query) => {
+  const result = await collectionRepository.searchCollections(query);
+  return result;
+};
+
 module.exports = {
   getCollectionInfo,
   get24hInfo,
@@ -90,4 +95,5 @@ module.exports = {
   getHoldersChartByCount,
   getHoldersChartByDays,
   getRelationsWithCollection,
+  searchCollections,
 };

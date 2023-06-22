@@ -6,6 +6,7 @@ const {
   vpsValidation,
   feedValidation,
   transactionsValidation,
+  searchValidation,
 } = require('../../validations/collection.validation');
 const auth = require('../../middlewares/auth');
 
@@ -24,6 +25,8 @@ router.get('/feed/:address', auth('collection'), validate(feedValidation), colle
 router.get('/mints/chart/:address', auth('collection'), validate(addressValidation), collectionController.getMintsChart);
 
 router.get('/mints/table/:address', auth('collection'), validate(addressValidation), collectionController.getMintsTable);
+
+router.get('/search', auth('search'), validate(searchValidation), collectionController.searchCollections);
 
 router.get(
   '/holders/chart/count/:address',

@@ -1,6 +1,6 @@
 const allRoles = {
   free: [],
-  premium: ['trending', 'minting', 'collection', 'labels', 'alerts'],
+  premium: ['trending', 'minting', 'collection', 'labels', 'alerts', 'search'],
   admin: ['trending', 'minting', 'collection', 'labels', 'alerts'],
 };
 

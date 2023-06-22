@@ -448,6 +448,30 @@ const getRelationsWithCollections = async (network, address) => {
   }
 };
 
+const searchCollections = async (query) => {
+  try {
+    const cacheId = `req:collection:query:${query}`;
+    const tags = [`all`];
+    const cacheResult = null;
+    if (cacheResult) {
+      return cacheResult;
+    }
+
+    const result = await sequelize.query(
+      `SELECT address, name, symbol FROM ethereum.collections WHERE address = $1 LIMIT 10;`,
+      {
+        bind: [query],
+        type: QueryTypes.SELECT,
+      }
+    );
+
+    await cache.set(cacheId, result, tags);
+    return result;
+  } catch (error) {
+    throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, `DB Error: ${error.message}`, true, error.stack);
+  }
+};
+
 module.exports = {
   getCollectionInfo,
   get24hInfo,
@@ -461,4 +485,5 @@ module.exports = {
   getHoldersChartByCount,
   getHoldersChartByDays,
   getRelationsWithCollections,
+  searchCollections,
 };

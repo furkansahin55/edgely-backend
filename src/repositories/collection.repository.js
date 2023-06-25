@@ -460,7 +460,7 @@ const searchCollections = async (query) => {
     const result = await sequelize.query(
       `SELECT address, name, symbol FROM ethereum.collections WHERE address = $1 LIMIT 10;`,
       {
-        bind: [query],
+        bind: [query.toLowerCase()],
         type: QueryTypes.SELECT,
       }
     );

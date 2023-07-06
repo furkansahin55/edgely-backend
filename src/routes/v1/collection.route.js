@@ -26,7 +26,7 @@ router.get('/mints/chart/:address', auth('collection'), validate(addressValidati
 
 router.get('/mints/table/:address', auth('collection'), validate(addressValidation), collectionController.getMintsTable);
 
-router.get('/search', auth('search'), validate(searchValidation), collectionController.searchCollections);
+router.get('/holders/:address', auth('collection'), validate(addressValidation), collectionController.getHolders);
 
 router.get(
   '/holders/chart/count/:address',
@@ -48,6 +48,8 @@ router.get(
   validate(addressValidation),
   collectionController.getRelationsWithCollection
 );
+
+router.get('/search', auth('search'), validate(searchValidation), collectionController.searchCollections);
 
 module.exports = router;
 

@@ -472,6 +472,34 @@ const searchCollections = async (query) => {
   }
 };
 
+const getHolders = async (network, address) => {
+  try {
+    const cacheId = `req:collection:holders:${address}`;
+    const tags = [];
+    const cacheResult = await cache.get(cacheId);
+    if (cacheResult) {
+      return cacheResult;
+    }
+
+    const result = await sequelize.query(
+      `
+      SELECT DISTINCT ON (to_address) to_address AS holder
+      FROM ${network}.nft_tokens
+      WHERE address = $1
+        AND to_address NOT IN (SELECT address FROM ${network}.dead_addresses);
+    `,
+      {
+        bind: [address],
+        type: QueryTypes.SELECT,
+      }
+    );
+    await cache.set(cacheId, result, tags, 60 * 60 * 24);
+    return result;
+  } catch (error) {
+    throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, `DB Error: ${error.message}`, true, error.stack);
+  }
+};
+
 module.exports = {
   getCollectionInfo,
   get24hInfo,
@@ -486,4 +514,5 @@ module.exports = {
   getHoldersChartByDays,
   getRelationsWithCollections,
   searchCollections,
+  getHolders,
 };

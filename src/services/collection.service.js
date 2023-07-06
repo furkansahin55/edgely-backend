@@ -84,8 +84,8 @@ const searchCollections = async (query) => {
   return result;
 };
 
-const getHolders = async (query) => {
-  const result = await collectionRepository.getHolders(query);
+const getHolders = async (network, address) => {
+  const result = await collectionRepository.getHolders(network, address);
   return result;
 };
 

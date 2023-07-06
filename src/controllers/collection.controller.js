@@ -79,8 +79,9 @@ const searchCollections = catchAsync(async (req, res) => {
 });
 
 const getHolders = catchAsync(async (req, res) => {
-  const { query } = req.query;
-  const data = await collectionService.getHolders(query);
+  const { network } = req.query;
+  const { address } = req.params;
+  const data = await collectionService.getHolders(network, address);
   res.send(data);
 });
 

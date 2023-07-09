@@ -17,6 +17,8 @@ const upsertLabels = async (address, data) => {
   data.forEach((element) => {
     // eslint-disable-next-line no-param-reassign
     element.user = address;
+    // eslint-disable-next-line no-param-reassign
+    element.address = element.address.toLowerCase();
   });
   await labelsRepository.deleteLabels(address);
   await labelsRepository.insertLabels(data);

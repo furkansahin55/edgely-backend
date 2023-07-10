@@ -152,7 +152,7 @@ const getTransactions = async (network, address, timeframe) => {
     const whereQuery = timeframe !== 'all' ? `AND block_timestamp > NOW() - INTERVAL '${timeframe} DAYS'` : '';
     const result = await sequelize.query(
       `
-      SELECT ${network}.to_utc(block_timestamp) as block_timestamp, address, to_address as buyer, ${network}.wei_to_eth(price_as_eth) as price
+      SELECT block_timestamp as block_timestamp, address, to_address as buyer, ${network}.wei_to_eth(price_as_eth) as price
       FROM ${network}.nft_sales
       WHERE address = $1 
       ${whereQuery} 
@@ -303,7 +303,7 @@ const getMintsChart = async (network, address) => {
 
     const result = await sequelize.query(
       `
-      SELECT date_trunc('hours', ${network}.to_utc(block_timestamp)) as block_timestamp, address, COUNT(price_as_eth) as mints
+      SELECT date_trunc('hours', block_timestamp) as block_timestamp, address, COUNT(price_as_eth) as mints
       FROM ${network}.nft_mints 
       WHERE price_as_eth IS NOT NULL
       AND address = $1
@@ -396,7 +396,7 @@ const getHoldersChartByDays = async (network, address) => {
     const result = await sequelize.query(
       `
     WITH days_table AS (
-    SELECT DISTINCT ON (token_id) address, token_id, transaction_hash, DATE_PART('day', ${network}.to_utc(NOW()) - ${network}.to_utc(block_timestamp)) as days_ago
+    SELECT DISTINCT ON (token_id) address, token_id, transaction_hash, DATE_PART('day', NOW()) - block_timestamp as days_ago
     FROM ${network}.nft_tokens 
     WHERE address = $1 AND to_address NOT IN (SELECT address FROM ${network}.dead_addresses) 
     ORDER BY token_id, block_number DESC, log_index DESC) 

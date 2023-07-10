@@ -177,9 +177,9 @@ const feedQuery = async (network, address, limit, sort, blockNumberCursor = fals
   const cursorQuery = isCursorAvailable ? ` AND (block_number, log_index) ${sort === 'DESC' ? '<' : '>'} ($3, $4) ` : '';
   return sequelize.query(
     `
-    SELECT 'Mint' as type, block_number, log_index, address, transaction_hash, ${network}.to_utc(block_timestamp) as block_timestamp, from_address, to_address, token_id, ${network}.wei_to_eth(price_as_eth) as price_as_eth  FROM ${network}.nft_mints WHERE address = $1 ${cursorQuery}
+    SELECT 'Mint' as type, block_number, log_index, address, transaction_hash, block_timestamp as block_timestamp, from_address, to_address, token_id, ${network}.wei_to_eth(price_as_eth) as price_as_eth  FROM ${network}.nft_mints WHERE address = $1 ${cursorQuery}
     UNION ALL
-    SELECT 'Sale' as type, block_number, log_index, address, transaction_hash, ${network}.to_utc(block_timestamp) as block_timestamp, from_address, to_address, token_id, ${network}.wei_to_eth(price_as_eth) as price_as_eth  FROM ${network}.nft_sales WHERE address = $1 ${cursorQuery}
+    SELECT 'Sale' as type, block_number, log_index, address, transaction_hash, block_timestamp as block_timestamp, from_address, to_address, token_id, ${network}.wei_to_eth(price_as_eth) as price_as_eth  FROM ${network}.nft_sales WHERE address = $1 ${cursorQuery}
     ORDER BY block_number ${sort}, log_index ${sort} LIMIT $2;`,
     {
       bind: isCursorAvailable ? [address, limit, blockNumberCursor, logIndexCursor] : [address, limit],

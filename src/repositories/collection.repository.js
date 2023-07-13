@@ -7,7 +7,7 @@ const sequelize = require('../models');
 const cache = new CacheSingleton();
 const getCollectionInfo = async (network, address) => {
   try {
-    const cacheId = `req:collection:info:${address}`;
+    const cacheId = `req:collection:info:${network}:${address}`;
     const tags = [`all`];
     const cacheResult = await cache.get(cacheId);
     if (cacheResult) {
@@ -48,7 +48,7 @@ const getCollectionInfo = async (network, address) => {
 
 const get24hInfo = async (network, address) => {
   try {
-    const cacheId = `req:collection:24h:${address}`;
+    const cacheId = `req:collection:24h:${network}:${address}`;
     const tags = [`sales`];
     const cacheResult = await cache.get(cacheId);
     if (cacheResult) {
@@ -98,7 +98,7 @@ const get24hInfo = async (network, address) => {
 // TODO: make timeframe dynamic minutes
 const getVpsGraph = async (network, timeframe, address) => {
   try {
-    const cacheId = `req:collection:vps:${address}:${timeframe}`;
+    const cacheId = `req:collection:vps:${network}:${address}:${timeframe}`;
     const tags = [`sales`];
     const cacheResult = await cache.get(cacheId);
     if (cacheResult) {
@@ -143,7 +143,7 @@ const getVpsGraph = async (network, timeframe, address) => {
 
 const getTransactions = async (network, address, timeframe) => {
   try {
-    const cacheId = `req:collection:txs:${address}:${timeframe}`;
+    const cacheId = `req:collection:txs:${network}:${address}:${timeframe}`;
     const tags = [`sales`];
     const cacheResult = await cache.get(cacheId);
     if (cacheResult) {
@@ -190,7 +190,7 @@ const feedQuery = async (network, address, limit, sort, blockNumberCursor = fals
 
 const getFeed = async (network, address, blockNumberCursor, logIndexCursor, take) => {
   try {
-    const cacheId = `req:collection:feed:${address}:${blockNumberCursor}:${logIndexCursor}:${take}`;
+    const cacheId = `req:collection:feed:${network}:${address}:${blockNumberCursor}:${logIndexCursor}:${take}`;
     const tags = [`all`];
     const cacheResult = await cache.get(cacheId);
     if (cacheResult) {
@@ -235,7 +235,7 @@ const getFeed = async (network, address, blockNumberCursor, logIndexCursor, take
 
 const getLastFeedPage = async (network, address, take) => {
   try {
-    const cacheId = `req:collection:lastFeed:${address}:${take}`;
+    const cacheId = `req:collection:lastFeed:${network}:${address}:${take}`;
     const tags = [`all`];
     const cacheResult = await cache.get(cacheId);
     if (cacheResult) {
@@ -265,7 +265,7 @@ const getLastFeedPage = async (network, address, take) => {
 
 const getFirstFeedPage = async (network, address, take) => {
   try {
-    const cacheId = `req:collection:firstFeed:${address}:${take}`;
+    const cacheId = `req:collection:firstFeed:${network}:${address}:${take}`;
     const tags = [`all`];
     const cacheResult = await cache.get(cacheId);
     if (cacheResult) {
@@ -294,7 +294,7 @@ const getFirstFeedPage = async (network, address, take) => {
 
 const getMintsChart = async (network, address) => {
   try {
-    const cacheId = `req:collection:mints:chart:${address}`;
+    const cacheId = `req:collection:mints:chart:${network}:${address}`;
     const tags = [`mints`];
     const cacheResult = await cache.get(cacheId);
     if (cacheResult) {
@@ -324,7 +324,7 @@ const getMintsChart = async (network, address) => {
 
 const getMintsTable = async (network, address) => {
   try {
-    const cacheId = `req:collection:mints:table:${address}`;
+    const cacheId = `req:collection:mints:table:${network}:${address}`;
     const tags = [`mints`];
     const cacheResult = await cache.get(cacheId);
     if (cacheResult) {
@@ -353,7 +353,7 @@ const getMintsTable = async (network, address) => {
 
 const getHoldersChartByCount = async (network, address) => {
   try {
-    const cacheId = `req:collection:holders:count:${address}`;
+    const cacheId = `req:collection:holders:count:${network}:${address}`;
     const tags = [`all`];
     const cacheResult = await cache.get(cacheId);
     if (cacheResult) {
@@ -386,7 +386,7 @@ const getHoldersChartByCount = async (network, address) => {
 
 const getHoldersChartByDays = async (network, address) => {
   try {
-    const cacheId = `req:collection:holders:days:${address}`;
+    const cacheId = `req:collection:holders:days:${network}:${address}`;
     const tags = [`all`];
     const cacheResult = await cache.get(cacheId);
     if (cacheResult) {
@@ -418,7 +418,7 @@ const getHoldersChartByDays = async (network, address) => {
 
 const getRelationsWithCollections = async (network, address) => {
   try {
-    const cacheId = `req:collection:relation:${address}`;
+    const cacheId = `req:collection:relation:${network}:${address}`;
     const tags = [`all`];
     const cacheResult = await cache.get(cacheId);
     if (cacheResult) {
@@ -474,7 +474,7 @@ const searchCollections = async (query) => {
 
 const getHolders = async (network, address) => {
   try {
-    const cacheId = `req:collection:holders:${address}`;
+    const cacheId = `req:collection:holders:${network}:${address}`;
     const tags = [];
     const cacheResult = await cache.get(cacheId);
     if (cacheResult) {
@@ -500,6 +500,19 @@ const getHolders = async (network, address) => {
   }
 };
 
+const getBlockNumber = async (network) => {
+  try {
+    const cacheId = `req:collection:block_number:${network}`;
+    const cacheResult = await cache.get(cacheId);
+    if (cacheResult) {
+      return cacheResult;
+    }
+    return 'fetching...';
+  } catch (error) {
+    throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, `DB Error: ${error.message}`, true, error.stack);
+  }
+};
+
 module.exports = {
   getCollectionInfo,
   get24hInfo,
@@ -515,4 +528,5 @@ module.exports = {
   getRelationsWithCollections,
   searchCollections,
   getHolders,
+  getBlockNumber,
 };

@@ -59,10 +59,19 @@ const feedValidation = {
   }),
 };
 
+const blockNumberValidation = {
+  query: Joi.object().keys({
+    network: Joi.string()
+      .valid(...networks)
+      .required(),
+  }),
+};
+
 module.exports = {
   addressValidation,
   vpsValidation,
   feedValidation,
   transactionsValidation,
   searchValidation,
+  blockNumberValidation,
 };

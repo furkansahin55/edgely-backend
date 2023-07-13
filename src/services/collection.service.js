@@ -89,6 +89,11 @@ const getHolders = async (network, address) => {
   return result;
 };
 
+const getBlockNumber = async (network) => {
+  const result = await collectionRepository.getBlockNumber(network);
+  return result;
+};
+
 module.exports = {
   getCollectionInfo,
   get24hInfo,
@@ -102,4 +107,5 @@ module.exports = {
   getRelationsWithCollection,
   searchCollections,
   getHolders,
+  getBlockNumber,
 };

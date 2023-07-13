@@ -7,6 +7,7 @@ const {
   feedValidation,
   transactionsValidation,
   searchValidation,
+  blockNumberValidation,
 } = require('../../validations/collection.validation');
 const auth = require('../../middlewares/auth');
 
@@ -50,6 +51,8 @@ router.get(
 );
 
 router.get('/search', auth('search'), validate(searchValidation), collectionController.searchCollections);
+
+router.get('/block-number', validate(blockNumberValidation), collectionController.getBlockNumber);
 
 module.exports = router;
 

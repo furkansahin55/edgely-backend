@@ -85,6 +85,12 @@ const getHolders = catchAsync(async (req, res) => {
   res.send(data);
 });
 
+const getBlockNumber = catchAsync(async (req, res) => {
+  const { network } = req.query;
+  const data = await collectionService.getBlockNumber(network);
+  res.send(data);
+});
+
 module.exports = {
   getCollectionInfo,
   get24hInfo,
@@ -98,4 +104,5 @@ module.exports = {
   getRelationsWithCollection,
   searchCollections,
   getHolders,
+  getBlockNumber,
 };

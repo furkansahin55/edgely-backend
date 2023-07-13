@@ -505,9 +505,9 @@ const getBlockNumber = async (network) => {
     const cacheId = `req:collection:block_number:${network}`;
     const cacheResult = await cache.get(cacheId);
     if (cacheResult) {
-      return cacheResult;
+      return { blockNumber: cacheResult };
     }
-    return 'fetching...';
+    return { blockNumber: 'fetching...' };
   } catch (error) {
     throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, `DB Error: ${error.message}`, true, error.stack);
   }

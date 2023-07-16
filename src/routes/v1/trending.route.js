@@ -6,7 +6,7 @@ const auth = require('../../middlewares/auth');
 
 const router = express.Router();
 
-router.get('/:timeFrame', auth('trending'), validate(trendingTable), trendingController.getTrendingTable);
+router.get('/:timeFrame', validate(trendingTable), trendingController.getTrendingTable);
 
 router.get('/labels/:timeFrame', auth('trending'), validate(trendingTable), trendingController.getTrendingLabelsTable);
 

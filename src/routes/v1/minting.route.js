@@ -6,9 +6,9 @@ const auth = require('../../middlewares/auth');
 
 const router = express.Router();
 
-router.get('/:timeFrame', auth('minting'), validate(mintingTable), mintingController.getMintingTable);
+router.get('/:timeFrame', validate(mintingTable), mintingController.getMintingTable);
 
-router.get('/labels/:timeFrame', auth('trending'), validate(mintingTable), mintingController.getMintingLabelsTable);
+router.get('/labels/:timeFrame', auth('minting'), validate(mintingTable), mintingController.getMintingLabelsTable);
 
 module.exports = router;
 

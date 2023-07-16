@@ -1,7 +1,7 @@
 const allRoles = {
   free: [],
   premium: ['trending', 'minting', 'collection', 'labels', 'alerts', 'search'],
-  admin: ['trending', 'minting', 'collection', 'labels', 'alerts'],
+  admin: ['trending', 'minting', 'collection', 'labels', 'alerts', 'search'],
 };
 
 const roles = Object.keys(allRoles);

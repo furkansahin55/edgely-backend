@@ -1,6 +1,7 @@
+import { generateNonce, SiweMessage } from 'siwe';
+
 const httpStatus = require('http-status');
-const ethers = require('ethers');
-const crypto = require('crypto');
+
 const ApiError = require('../utils/ApiError');
 const { usersRepository, tokenRepository } = require('../repositories');
 const { tokenTypes } = require('../config/tokens');
@@ -12,7 +13,7 @@ const redisIO = require('../utils/RedisIO');
  * @returns {String}
  */
 const getNonce = () => {
-  const nonce = crypto.randomBytes(16).toString('hex');
+  const nonce = generateNonce();
   // redis save nonce under key 'nonces' with timeout of 1 hour
   redisIO.sadd('nonces', nonce);
   redisIO.expire('nonces', 3600);
@@ -26,17 +27,11 @@ const getNonce = () => {
  * @param {String} address
  * @returns {String}
  */
-const verifyNonce = (message, signed, address) => {
+const verifyNonce = async (message, signature) => {
   try {
-    const signedByAddress = ethers.utils.verifyMessage(message, signed);
-    if (signedByAddress.toLowerCase() !== address.toLowerCase()) {
-      throw new ApiError(httpStatus.UNAUTHORIZED, 'Message not signed by provided address');
-    }
-    const nonce = message.split('Nonce: ')[1];
-    const nonceExists = redisIO.sismember('nonces', nonce);
-    if (!nonceExists) {
-      throw new ApiError(httpStatus.UNAUTHORIZED, 'Nonce not found or expired');
-    }
+    const siweMessage = new SiweMessage(message);
+    await siweMessage.verify({ signature });
+    return message.address.toLowerCase();
   } catch (error) {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'Signature not valid or token expired');
   }

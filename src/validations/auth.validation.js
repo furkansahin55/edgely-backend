@@ -8,9 +8,17 @@ const refreshTokens = {
 
 const nonce = {
   body: Joi.object().keys({
-    message: Joi.string().required(),
-    signed: Joi.string().required(),
-    address: Joi.string().required(),
+    message: Joi.object({
+      domain: Joi.string().required(),
+      address: Joi.string().hex().length(42).required(),
+      statement: Joi.string().required(),
+      uri: Joi.string().uri().required(),
+      version: Joi.string().required(),
+      chainId: Joi.number().integer().required(),
+      nonce: Joi.string().required(),
+      issuedAt: Joi.string().isoDate().required(),
+    }).required(),
+    signature: Joi.string().required(),
   }),
 };
 

@@ -42,6 +42,7 @@
     "pm2": "^5.2.2",
     "redis-tag-cache": "^1.2.1",
     "sequelize": "^6.31.0",
+    "siwe": "^2.1.4",
     "supertest": "^6.2.4",
     "swagger-jsdoc": "^6.2.5",
     "swagger-ui-express": "^4.5.0",

@@ -8,8 +8,8 @@ const getNonce = catchAsync(async (req, res) => {
 });
 
 const verifyNonce = catchAsync(async (req, res) => {
-  const { message, signed, address } = req.body;
-  web3AuthService.verifyNonce(message, signed, address);
+  const { message, signature } = req.body;
+  const address = await web3AuthService.verifyNonce(message, signature);
   const user = await web3AuthService.loginWithSignVerifiedAddress(address);
   const tokens = await tokenService.generateAuthTokens(user);
   res.send({ user, tokens });

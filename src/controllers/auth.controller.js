@@ -4,8 +4,7 @@ const { web3AuthService, tokenService } = require('../services');
 
 const getNonce = catchAsync(async (req, res) => {
   const nonce = web3AuthService.getNonce();
-  const msg = `I want to login with my wallet. \nNonce: ${nonce}`;
-  res.send({ nonce: msg });
+  res.send({ nonce });
 });
 
 const verifyNonce = catchAsync(async (req, res) => {

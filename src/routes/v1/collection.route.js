@@ -9,7 +9,6 @@ const {
   searchValidation,
   blockNumberValidation,
 } = require('../../validations/collection.validation');
-const auth = require('../../middlewares/auth');
 
 const router = express.Router();
 

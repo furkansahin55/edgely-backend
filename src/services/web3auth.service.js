@@ -1,8 +1,6 @@
 const httpStatus = require('http-status');
-const jwt = require('jsonwebtoken');
 const ethers = require('ethers');
 const { v4: uuidv4 } = require('uuid');
-const config = require('../config/config');
 const ApiError = require('../utils/ApiError');
 const { usersRepository, tokenRepository } = require('../repositories');
 const { tokenTypes } = require('../config/tokens');

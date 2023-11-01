@@ -1,7 +1,5 @@
-import { generateNonce, SiweMessage } from 'siwe';
-
+const siwe = require('siwe');
 const httpStatus = require('http-status');
-
 const ApiError = require('../utils/ApiError');
 const { usersRepository, tokenRepository } = require('../repositories');
 const { tokenTypes } = require('../config/tokens');
@@ -13,7 +11,7 @@ const redisIO = require('../utils/RedisIO');
  * @returns {String}
  */
 const getNonce = () => {
-  const nonce = generateNonce();
+  const nonce = siwe.generateNonce();
   // redis save nonce under key 'nonces' with timeout of 1 hour
   redisIO.sadd('nonces', nonce);
   redisIO.expire('nonces', 3600);
@@ -29,7 +27,7 @@ const getNonce = () => {
  */
 const verifyNonce = async (message, signature) => {
   try {
-    const siweMessage = new SiweMessage(message);
+    const siweMessage = new siwe.SiweMessage(message);
     await siweMessage.verify({ signature });
     return message.address.toLowerCase();
   } catch (error) {

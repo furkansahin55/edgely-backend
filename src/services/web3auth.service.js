@@ -1,6 +1,6 @@
 const httpStatus = require('http-status');
 const ethers = require('ethers');
-const { v4: uuidv4 } = require('uuid');
+const crypto = require('crypto');
 const ApiError = require('../utils/ApiError');
 const { usersRepository, tokenRepository } = require('../repositories');
 const { tokenTypes } = require('../config/tokens');
@@ -12,7 +12,7 @@ const redisIO = require('../utils/RedisIO');
  * @returns {String}
  */
 const getNonce = () => {
-  const nonce = uuidv4();
+  const nonce = crypto.randomBytes(16).toString('hex');
   // redis save nonce under key 'nonces' with timeout of 1 hour
   redisIO.sadd('nonces', nonce);
   redisIO.expire('nonces', 3600);

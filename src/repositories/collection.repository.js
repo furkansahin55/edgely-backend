@@ -107,6 +107,7 @@ const getVpsGraph = async (network, timeframe, address) => {
     const timeframeToInterval = {
       1: `SELECT date_trunc('minute', block_timestamp) - (extract('minute' from block_timestamp) % 5 || ' minutes')::interval AS block_timestamp,`,
       7: `SELECT date_trunc('minute', block_timestamp) - (extract('minute' from block_timestamp) % 30 || ' minutes')::interval AS block_timestamp,`,
+      30: `SELECT date_trunc('hour', block_timestamp) - (extract('hour' from block_timestamp) % 1 || ' hours')::interval AS block_timestamp,`,
       90: `SELECT date_trunc('hour', block_timestamp) - (extract('hour' from block_timestamp) % 6 || ' hours')::interval AS block_timestamp,`,
       365: `SELECT date_trunc('day', block_timestamp) - (extract('day' from block_timestamp) % 1 || ' days')::interval AS block_timestamp,`,
       all: `SELECT date_trunc('day', block_timestamp) - (extract('day' from block_timestamp) % 1 || ' days')::interval AS block_timestamp,`,
@@ -152,13 +153,13 @@ const getTransactions = async (network, address, timeframe) => {
     const whereQuery = timeframe !== 'all' ? `AND block_timestamp > NOW() - INTERVAL '${timeframe} DAYS'` : '';
     const result = await sequelize.query(
       `
-      SELECT block_timestamp as block_timestamp, address, to_address as buyer, ${network}.wei_to_eth(price_as_eth) as price
+      SELECT block_timestamp, address, to_address as buyer, ${network}.wei_to_eth(price_as_eth) as price
       FROM ${network}.nft_sales
       WHERE address = $1 
       ${whereQuery} 
       AND price_as_eth IS NOT NULL
-      ORDER BY RANDOM()
-      LIMIT 200;
+      ORDER BY block_timestamp DESC
+      LIMIT 500;
     `,
       {
         bind: [address],
@@ -333,7 +334,7 @@ const getMintsTable = async (network, address) => {
 
     const result = await sequelize.query(
       `
-      SELECT to_address, COUNT(log_index) as mints FROM ethereum.nft_mints
+      SELECT to_address, COUNT(log_index) as mints FROM ${network}.nft_mints
       WHERE address = $1
       GROUP BY to_address
       ORDER BY mints DESC
@@ -513,6 +514,39 @@ const getBlockNumber = async (network) => {
   }
 };
 
+const getHoldersActions = async (network, address) => {
+  try {
+    const cacheId = `req:collection:holders:${network}:${address}`;
+    const tags = [];
+    const cacheResult = await cache.get(cacheId);
+    if (cacheResult) {
+      return cacheResult;
+    }
+
+    const result = await sequelize.query(
+      `
+        WITH holders AS (
+        SELECT DISTINCT ON (to_address) to_address AS holder
+        FROM ${network}.nft_tokens
+        WHERE address = $1
+        AND to_address NOT IN (SELECT address FROM ${network}.dead_addresses)
+        )
+        SELECT 'Sale' as type, block_number, log_index, address, transaction_hash, block_timestamp as block_timestamp, from_address, to_address, token_id, ${network}.wei_to_eth(price_as_eth) as price_as_eth  FROM ${network}.nft_sales WHERE to_address IN (SELECT holder FROM holders)
+        ORDER BY block_timestamp DESC
+        LIMIT 80;
+      `,
+      {
+        bind: [address],
+        type: QueryTypes.SELECT,
+      }
+    );
+    await cache.set(cacheId, result, tags, 60 * 60 * 24);
+    return result;
+  } catch (error) {
+    throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, `DB Error: ${error.message}`, true, error.stack);
+  }
+};
+
 module.exports = {
   getCollectionInfo,
   get24hInfo,
@@ -529,4 +563,5 @@ module.exports = {
   searchCollections,
   getHolders,
   getBlockNumber,
+  getHoldersActions,
 };

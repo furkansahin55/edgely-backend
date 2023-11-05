@@ -34,6 +34,8 @@ router.get('/holders/chart/days/:address', validate(addressValidation), collecti
 
 router.get('/relations/collection/:address', validate(addressValidation), collectionController.getRelationsWithCollection);
 
+router.get('/holders/actions/:address', validate(addressValidation), collectionController.getHoldersActions);
+
 router.get('/search', validate(searchValidation), collectionController.searchCollections);
 
 router.get('/block-number', validate(blockNumberValidation), collectionController.getBlockNumber);

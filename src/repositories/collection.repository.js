@@ -531,7 +531,7 @@ const getHoldersActions = async (network, address) => {
         WHERE address = $1
         AND to_address NOT IN (SELECT address FROM ${network}.dead_addresses)
         )
-        SELECT 'Sale' as type,  c.name as collection_name, s.block_number, s.log_index, s.address, s.transaction_hash, s.block_timestamp as block_timestamp, s.from_address, s.to_address, s.token_id, ethereum.wei_to_eth(price_as_eth) as price_as_eth
+        SELECT 'Buy' as type,  c.name as collection_name, s.block_number, s.log_index, s.address, s.transaction_hash, s.block_timestamp as block_timestamp, s.from_address, s.to_address, s.token_id, ethereum.wei_to_eth(price_as_eth) as price_as_eth
         FROM ${network}.nft_sales s
         JOIN ${network}.collections c ON c.address = s.address
         WHERE s.to_address IN (SELECT holder FROM holders)

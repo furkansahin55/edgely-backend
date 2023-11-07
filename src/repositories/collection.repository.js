@@ -107,7 +107,7 @@ const getVpsGraph = async (network, timeframe, address) => {
     const timeframeToInterval = {
       1: `SELECT date_trunc('minute', block_timestamp) - (extract('minute' from block_timestamp) % 5 || ' minutes')::interval AS block_timestamp,`,
       7: `SELECT date_trunc('minute', block_timestamp) - (extract('minute' from block_timestamp) % 30 || ' minutes')::interval AS block_timestamp,`,
-      30: `SELECT date_trunc('hour', block_timestamp) - (extract('hour' from block_timestamp) % 1 || ' hours')::interval AS block_timestamp,`,
+      30: `SELECT date_trunc('hour', block_timestamp) - (extract('hour' from block_timestamp) % 2 || ' hours')::interval AS block_timestamp,`,
       90: `SELECT date_trunc('hour', block_timestamp) - (extract('hour' from block_timestamp) % 6 || ' hours')::interval AS block_timestamp,`,
       365: `SELECT date_trunc('day', block_timestamp) - (extract('day' from block_timestamp) % 1 || ' days')::interval AS block_timestamp,`,
       all: `SELECT date_trunc('day', block_timestamp) - (extract('day' from block_timestamp) % 1 || ' days')::interval AS block_timestamp,`,
@@ -516,8 +516,8 @@ const getBlockNumber = async (network) => {
 
 const getHoldersActions = async (network, address) => {
   try {
-    const cacheId = `req:collection:holders:${network}:${address}`;
-    const tags = [];
+    const cacheId = `req:collection:holders:action:${network}:${address}`;
+    const tags = ['all'];
     const cacheResult = await cache.get(cacheId);
     if (cacheResult) {
       return cacheResult;
@@ -531,7 +531,7 @@ const getHoldersActions = async (network, address) => {
         WHERE address = $1
         AND to_address NOT IN (SELECT address FROM ${network}.dead_addresses)
         )
-        SELECT 'Sale' as type, block_number, log_index, address, transaction_hash, block_timestamp as block_timestamp, from_address, to_address, token_id, ${network}.wei_to_eth(price_as_eth) as price_as_eth  FROM ${network}.nft_sales WHERE to_address IN (SELECT holder FROM holders)
+        SELECT 'Buy' as type, block_number, log_index, address, transaction_hash, block_timestamp as block_timestamp, from_address, to_address, token_id, ${network}.wei_to_eth(price_as_eth) as price_as_eth  FROM ${network}.nft_sales WHERE to_address IN (SELECT holder FROM holders)
         ORDER BY block_timestamp DESC
         LIMIT 80;
       `,
@@ -540,7 +540,7 @@ const getHoldersActions = async (network, address) => {
         type: QueryTypes.SELECT,
       }
     );
-    await cache.set(cacheId, result, tags, 60 * 60 * 24);
+    await cache.set(cacheId, result, tags);
     return result;
   } catch (error) {
     throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, `DB Error: ${error.message}`, true, error.stack);

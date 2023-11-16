@@ -49,7 +49,7 @@ const getAdresses = async (network, user) => {
       return cacheResult;
     }
 
-    const result = await sequelize.query(
+    let result = await sequelize.query(
       `
       WITH labels AS (
         SELECT * FROM public.labels as l WHERE l.user = $2 and network = $1
@@ -69,7 +69,9 @@ const getAdresses = async (network, user) => {
         type: QueryTypes.SELECT,
       }
     );
-    await cache.set(cacheId, result, tags, 10);
+    result = result.map((e) => e.address);
+
+    await cache.set(cacheId, result, tags, { timeout: 10 });
     return result;
   } catch (error) {
     throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, `DB Error: ${error.message}`, true, error.stack);

@@ -497,7 +497,7 @@ const getHolders = async (network, address) => {
         type: QueryTypes.SELECT,
       }
     );
-    await cache.set(cacheId, result, tags, 60 * 60 * 24);
+    await cache.set(cacheId, result, tags, { timeout: 60 * 60 * 24 });
     return result;
   } catch (error) {
     throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, `DB Error: ${error.message}`, true, error.stack);

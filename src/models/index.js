@@ -10,7 +10,7 @@ const alertTypesModel = require('./alert_types.model');
 const alertDeliveryChannelsModel = require('./alert_delivery_channels.model');
 
 const sequelize = new Sequelize(config.db, {
-  logging: true,
+  logging: false,
 });
 
 const modelDefiners = [usersModel, tokenModel, alertTypesModel, alertDeliveryChannelsModel, labelsModel, alertsModel];

@@ -455,7 +455,7 @@ const getRelationsWithCollections = async (network, address) => {
 const searchCollections = async (query) => {
   try {
     const cacheId = `req:collection:query:${query}`;
-    const tags = [`all`];
+    const tags = ['all'];
     const cacheResult = null;
     if (cacheResult) {
       return cacheResult;

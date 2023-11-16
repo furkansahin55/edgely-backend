@@ -15,6 +15,15 @@ const labelsUpsert = {
   }),
 };
 
+const getAdresses = {
+  query: Joi.object().keys({
+    network: Joi.string()
+      .valid(...networks)
+      .required(),
+  }),
+};
+
 module.exports = {
   labelsUpsert,
+  getAdresses,
 };

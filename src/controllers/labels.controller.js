@@ -12,7 +12,14 @@ const upsertLabels = catchAsync(async (req, res) => {
   res.send(result);
 });
 
+const getAdresses = catchAsync(async (req, res) => {
+  const { network } = req.query;
+  const result = await labelsService.getAdresses(network, req.user.address);
+  res.send(result);
+});
+
 module.exports = {
   getLabels,
   upsertLabels,
+  getAdresses,
 };

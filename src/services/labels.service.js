@@ -25,7 +25,17 @@ const upsertLabels = async (address, data) => {
   return true;
 };
 
+/**
+ * Get label addresses for given users
+ * @returns {Object}
+ */
+const getAdresses = async (network, user) => {
+  const result = await labelsRepository.getAdresses(network, user);
+  return result;
+};
+
 module.exports = {
   getLabels,
   upsertLabels,
+  getAdresses,
 };

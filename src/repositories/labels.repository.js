@@ -1,10 +1,14 @@
 const httpStatus = require('http-status');
+const { QueryTypes } = require('sequelize');
 const ApiError = require('../utils/ApiError');
-const { models } = require('../models');
+const sequelize = require('../models');
+const CacheSingleton = require('../utils/RedisTag');
+
+const cache = new CacheSingleton();
 
 const getLabels = async (address) => {
   try {
-    const result = await models.labels.findAll({
+    const result = await sequelize.models.labels.findAll({
       where: {
         user: address,
       },
@@ -18,7 +22,7 @@ const getLabels = async (address) => {
 
 const insertLabels = async (data) => {
   try {
-    await models.labels.bulkCreate(data);
+    await sequelize.models.labels.bulkCreate(data);
     return true;
   } catch (error) {
     throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, `DB Error: ${error.message}`, true, error.stack);
@@ -27,10 +31,46 @@ const insertLabels = async (data) => {
 
 const deleteLabels = async (user) => {
   try {
-    await models.labels.destroy({
+    await sequelize.models.labels.destroy({
       where: { user },
     });
     return true;
+  } catch (error) {
+    throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, `DB Error: ${error.message}`, true, error.stack);
+  }
+};
+
+const getAdresses = async (network, user) => {
+  try {
+    const cacheId = `req:labels:adresses:${network}:${user}`;
+    const tags = [];
+    const cacheResult = await cache.get(cacheId);
+    if (cacheResult) {
+      return cacheResult;
+    }
+
+    const result = await sequelize.query(
+      `
+      WITH labels AS (
+        SELECT * FROM public.labels as l WHERE l.user = $1 and network=$1
+      ),
+      holders AS (
+        SELECT DISTINCT ON (to_address) to_address AS address
+        FROM $1:name.nft_tokens
+        WHERE address IN (SELECT address FROM labels l WHERE l.type = 1)
+        AND to_address NOT IN (SELECT address FROM $1:name.dead_addresses)
+      )
+      SELECT address FROM holders
+      UNION ALL
+      SELECT address FROM labels WHERE type=0;    
+      `,
+      {
+        bind: [network, user],
+        type: QueryTypes.SELECT,
+      }
+    );
+    await cache.set(cacheId, result, tags, 10);
+    return result;
   } catch (error) {
     throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, `DB Error: ${error.message}`, true, error.stack);
   }
@@ -40,4 +80,5 @@ module.exports = {
   getLabels,
   insertLabels,
   deleteLabels,
+  getAdresses,
 };

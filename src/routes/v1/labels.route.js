@@ -10,7 +10,7 @@ router.get('/', auth('labels'), labelsController.getLabels);
 
 router.post('/', auth('labels'), validate(labelsUpsert), labelsController.upsertLabels);
 
-router.post('/adresses', auth('labels'), validate(getAdresses), labelsController.getAdresses);
+router.get('/adresses', auth('labels'), validate(getAdresses), labelsController.getAdresses);
 
 module.exports = router;
 

@@ -52,13 +52,13 @@ const getAdresses = async (network, user) => {
     const result = await sequelize.query(
       `
       WITH labels AS (
-        SELECT * FROM public.labels as l WHERE l.user = $1 and network=$1
+        SELECT * FROM public.labels as l WHERE l.user = $2 and network = $1
       ),
       holders AS (
         SELECT DISTINCT ON (to_address) to_address AS address
-        FROM $1:name.nft_tokens
+        FROM ${network}.nft_tokens
         WHERE address IN (SELECT address FROM labels l WHERE l.type = 1)
-        AND to_address NOT IN (SELECT address FROM $1:name.dead_addresses)
+        AND to_address NOT IN (SELECT address FROM ${network}.dead_addresses)
       )
       SELECT address FROM holders
       UNION ALL

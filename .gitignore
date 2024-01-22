@@ -1,3 +1,6 @@
+logs
+letsencrypt
+
 # Dependencies
 node_modules
 
@@ -12,7 +15,3 @@ yarn-error.log
 coverage
 
 # Redis and postgres volumes
-postgres
-nginxproxymanager
-letsencrypt
-pgbouncer

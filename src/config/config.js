@@ -20,6 +20,7 @@ const envVarsSchema = Joi.object()
     REDIS_PORT: Joi.number().description('port for redis server'),
     DATABASE_URL: Joi.string().required().description('Database URL'),
     NETWORKS: Joi.string().required().description('enabled networks'),
+    DB_LOGGING: Joi.string().required().description('db operations logging'),
   })
   .unknown();
 
@@ -55,4 +56,5 @@ module.exports = {
   },
   db: envVars.DATABASE_URL,
   networks: envVars.NETWORKS.split(','),
+  dbLogging: envVars.DB_LOGGING,
 };

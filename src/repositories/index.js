@@ -5,3 +5,4 @@ module.exports.mintingRepository = require('./minting.repository');
 module.exports.collectionRepository = require('./collection.repository');
 module.exports.labelsRepository = require('./labels.repository');
 module.exports.alertsRepository = require('./alerts.repository');
+module.exports.waitlistRepository = require('./waitlist.repository');

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-restricted-syntax */
 const { Sequelize } = require('sequelize');
 const { applyExtraSetup } = require('./extra-setup');
@@ -8,12 +9,21 @@ const labelsModel = require('./labels.model');
 const alertsModel = require('./alerts.model');
 const alertTypesModel = require('./alert_types.model');
 const alertDeliveryChannelsModel = require('./alert_delivery_channels.model');
+const waitlistModel = require('./waitlist.model');
 
 const sequelize = new Sequelize(config.db, {
-  logging: config.dbLogging,
+  logging: config.dbLogging ? console.log : false,
 });
 
-const modelDefiners = [usersModel, tokenModel, alertTypesModel, alertDeliveryChannelsModel, labelsModel, alertsModel];
+const modelDefiners = [
+  usersModel,
+  tokenModel,
+  alertTypesModel,
+  alertDeliveryChannelsModel,
+  labelsModel,
+  alertsModel,
+  waitlistModel,
+];
 
 for (const modelDefiner of modelDefiners) {
   modelDefiner(sequelize);

@@ -6,6 +6,7 @@ const collectionRoute = require('./collection.route');
 const labelsRoute = require('./labels.route');
 const alertsRoute = require('./alerts.route');
 const docsRoute = require('./docs.route');
+const waitlistRoute = require('./waitlist.route');
 const config = require('../../config/config');
 
 const router = express.Router();
@@ -34,6 +35,10 @@ const defaultRoutes = [
   {
     path: '/alerts',
     route: alertsRoute,
+  },
+  {
+    path: '/waitlist',
+    route: waitlistRoute,
   },
 ];
 

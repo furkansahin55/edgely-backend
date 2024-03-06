@@ -4,10 +4,14 @@ const { models } = require('../models');
 
 const create = async (mailAddress) => {
   try {
-    const user = await models.waitlist.create({
-      mail_address: mailAddress,
+    const [, created] = await models.waitlist.findOrCreate({
+      where: { mail_address: mailAddress },
+      defaults: { mail_address: mailAddress },
     });
-    return user;
+    if (created) {
+      return { message: 'Mail added to waitlist' };
+    }
+    return { message: 'Mail already in waitlist' };
   } catch (error) {
     throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, `DB Error: ${error.message}`, true, error.stack);
   }

@@ -40,6 +40,10 @@ const defaultRoutes = [
     path: '/waitlist',
     route: waitlistRoute,
   },
+  {
+    path: '/docs',
+    route: docsRoute,
+  },
 ];
 
 const devRoutes = [

@@ -1,25 +1,115 @@
 const express = require('express');
-const trendingController = require('../../controllers/trending.controller');
-const validate = require('../../middlewares/validate');
-const { trendingTable } = require('../../validations/trending.validation');
 
 const router = express.Router();
 
-router.get('/trending', validate(trendingTable), trendingController.getTrendingTable);
+router.get('/trending', (req, res) => {
+  // Sample response with fake data
+  res.json([
+    {
+      pool_name: 'ETH/USDT',
+      base_token_name: 'ETH',
+      exchange_name: 'Uniswap',
+      tx_count: 1000,
+      traders_count: 500,
+      volume: 200000.5,
+      price: 3500.0,
+      price_change_pct: 0.05,
+      liquidity: 5000000.0,
+      fdv: 700000000.0,
+      created_at: '2024-01-01T00:00:00Z',
+    },
+  ]);
+});
 
-router.get('/liquidity-events', validate(trendingTable), trendingController.getTrendingTable);
+router.get('/liquidity-events', (req, res) => {
+  // Sample response with fake data
+  res.json([
+    {
+      date: '2024-01-02T12:00:00Z',
+      type: 'Add Liquidity',
+      exchange_name: 'Uniswap',
+      from_address: '0x123',
+      base_token: 'ETH',
+      quote_token: 'USDT',
+      amount_in_usd: 5000.0,
+      price_in_usd: 3500.0,
+      base_token_amount: 1.5,
+      quote_token_amount: 5250.0,
+      tx: '0xabc',
+    },
+  ]);
+});
 
-router.get('/new', validate(trendingTable), trendingController.getTrendingTable);
+router.get('/new', (req, res) => {
+  res.json([
+    {
+      pair_name: 'ETH/DAI',
+      pair_address: '0x456',
+      created_at: '2024-01-03T00:00:00Z',
+      base_token: 'ETH',
+      quote_token: 'DAI',
+      initial_quote_token_amount: 10000.0,
+      initial_pool_timestamp: '2024-01-03T00:00:00Z',
+      current_quote_token_amount: 12000.0,
+      total_supply: 2000.0,
+    },
+  ]);
+});
 
-router.get('/info/:address', validate(trendingTable), trendingController.getTrendingTable);
+router.get('/info/:address', (req, res) => {
+  const { address } = req.params;
+  res.json({
+    pair_address: address,
+    total_supply: 100000.0,
+    base_token: 'ETH',
+    quote_token: 'USDT',
+    created_at: '2024-01-04T00:00:00Z',
+    price: 3500.0,
+    price_in_usd: 3500.0,
+    liquidity: 7000000.0,
+    fdv: 350000000.0,
+    price_change_pct: 0.07,
+  });
+});
 
-router.get('/price/:address', validate(trendingTable), trendingController.getTrendingTable);
+router.get('/price/:address', (req, res) => {
+  res.json({ message: `Price chart data for address ${req.params.address}` });
+});
 
-router.get('/transactions/:address', validate(trendingTable), trendingController.getTrendingTable);
+router.get('/transactions/:address', (req, res) => {
+  const { address } = req.params;
+  res.json([
+    {
+      date: '2024-01-05T10:00:00Z',
+      type: 'Trade',
+      price_in_usd: 3500.0,
+      base_token_amount: 1.0,
+      quote_token_amount: 3500.0,
+      value_in_usd: 3500.0,
+      address,
+    },
+  ]);
+});
 
-router.get('/traders/:address', validate(trendingTable), trendingController.getTrendingTable);
+router.get('/traders/:address', (req, res) => {
+  res.json([
+    {
+      wallet_address: '0x789',
+      bought: 5000.0,
+      sold: 3000.0,
+      pnl: 2000.0,
+    },
+  ]);
+});
 
-router.get('/balance/:address', validate(trendingTable), trendingController.getTrendingTable);
+router.get('/balance/:address', (req, res) => {
+  res.json({
+    balance: 1000.0,
+    received: 500.0,
+    sent: 200.0,
+    change_pct: 0.6,
+  });
+});
 
 module.exports = router;
 
@@ -60,6 +150,8 @@ module.exports = router;
  *                 properties:
  *                   pool_name:
  *                     type: string
+ *                   base_token_name:
+ *                    type: string
  *                   exchange_name:
  *                     type: string
  *                   tx_count:

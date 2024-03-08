@@ -7,6 +7,7 @@ const labelsRoute = require('./labels.route');
 const alertsRoute = require('./alerts.route');
 const docsRoute = require('./docs.route');
 const waitlistRoute = require('./waitlist.route');
+const poolsRoute = require('./pools.route');
 const config = require('../../config/config');
 
 const router = express.Router();
@@ -44,15 +45,13 @@ const defaultRoutes = [
     path: '/docs',
     route: docsRoute,
   },
-];
-
-const devRoutes = [
-  // routes available only in development mode
   {
-    path: '/docs',
-    route: docsRoute,
+    path: '/pools',
+    route: poolsRoute,
   },
 ];
+
+const devRoutes = [];
 
 defaultRoutes.forEach((route) => {
   router.use(route.path, route.route);

@@ -9,6 +9,9 @@ const swaggerDef = {
   },
   servers: [
     {
+      url: `http://api.edgely.io/v1`,
+    },
+    {
       url: `http://localhost:${config.port}/v1`,
     },
   ],

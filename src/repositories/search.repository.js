@@ -13,14 +13,10 @@ const searchCollections = async (text, page, pageSize) => {
     const cacheResult = await cache.get(cacheId);
     if (cacheResult) return cacheResult;
 
-    // Configuration for the db query
-    const defaultPageSize = 25; // Default page size if not provided
-    let limit = defaultPageSize;
+    // Set offset for pagination
     let offset = null;
     if (page) {
-      // Calculate the offset only if page is provided
-      limit = pageSize || defaultPageSize;
-      offset = (page - 1) * (pageSize || defaultPageSize);
+      offset = (page - 1) * pageSize;
     }
 
     const result = await sequelize.query(
@@ -32,7 +28,7 @@ const searchCollections = async (text, page, pageSize) => {
       LIMIT $2 OFFSET $3;
       `,
       {
-        bind: [text, limit, offset],
+        bind: [text, pageSize, offset],
         type: QueryTypes.SELECT,
       }
     );

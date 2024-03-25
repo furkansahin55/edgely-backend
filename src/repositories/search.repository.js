@@ -8,8 +8,8 @@ const cache = new CacheSingleton(); // Don't mind the constructor, this is singl
 const searchCollections = async (text, page, pageSize) => {
   try {
     // Check if the data is available in the cache
-    const cacheId = `req:search:results:for:(${text}:${page}:${pageSize})`;
-    const tags = [`all`];
+    const cacheId = `req:search:results:for:${text}:${page}:${pageSize}`;
+    const tags = [`search`];
     const cacheResult = await cache.get(cacheId);
     if (cacheResult) return cacheResult;
 
@@ -23,7 +23,8 @@ const searchCollections = async (text, page, pageSize) => {
       `
       SELECT address, name, symbol
       FROM ethereum.collections
-      WHERE weight IS NOT NULL AND LOWER(name) LIKE '%' || LOWER($1) || '%'
+      WHERE weight IS NOT NULL 
+      AND (LOWER(name) LIKE '%' || LOWER($1) || '%' OR LOWER(symbol) LIKE '%' || LOWER($1) || '%')
       ORDER BY weight DESC
       LIMIT $2 OFFSET $3;
       `,
@@ -33,7 +34,7 @@ const searchCollections = async (text, page, pageSize) => {
       }
     );
 
-    if (result?.length > 0) await cache.set(cacheId, result, tags); // Write data to cache
+    await cache.set(cacheId, result, tags); // Write data to cache
 
     return result;
   } catch (error) {

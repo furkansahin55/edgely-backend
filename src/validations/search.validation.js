@@ -6,7 +6,7 @@ const searchValidation = {
   }),
   query: Joi.object({
     page: Joi.number().integer().min(1).default(1),
-    pageSize: Joi.number().integer().min(1).default(25),
+    pageSize: Joi.number().integer().min(1).default(30),
   }),
 };
 

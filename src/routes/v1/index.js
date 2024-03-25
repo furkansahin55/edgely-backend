@@ -8,6 +8,7 @@ const alertsRoute = require('./alerts.route');
 const docsRoute = require('./docs.route');
 const waitlistRoute = require('./waitlist.route');
 const poolsRoute = require('./pools.route');
+const searchRoute = require('./search.route');
 const config = require('../../config/config');
 
 const router = express.Router();
@@ -48,6 +49,10 @@ const defaultRoutes = [
   {
     path: '/pools',
     route: poolsRoute,
+  },
+  {
+    path: '/search',
+    route: searchRoute,
   },
 ];
 

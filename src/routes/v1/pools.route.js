@@ -1,4 +1,5 @@
 const express = require('express');
+const poolsController = require('../../controllers/pools.controller');
 
 const router = express.Router();
 
@@ -73,8 +74,10 @@ router.get('/trending', (req, res) => {
   ]);
 });
 
-router.get('/liquidity-events', (req, res) => {
-  // Sample response with fake data
+router.get('/liquidity-events', poolsController.getLiquidityEvents);
+
+/* router.get('/liquidity-events', (req, res) => {
+  Sample response with fake data
   res.json([
     {
       date: '2024-01-02T12:00:00Z',
@@ -90,7 +93,7 @@ router.get('/liquidity-events', (req, res) => {
       tx: '0xabc',
     },
   ]);
-});
+}); */
 
 router.get('/new', (req, res) => {
   res.json([

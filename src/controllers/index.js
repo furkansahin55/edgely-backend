@@ -5,3 +5,4 @@ module.exports.collectionController = require('./collection.controller');
 module.exports.labelsController = require('./labels.controller');
 module.exports.alertsController = require('./alerts.controller');
 module.exports.waitlistController = require('./waitlist.controller');
+module.exports.poolsController = require('./pools.controller');

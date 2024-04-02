@@ -76,25 +76,6 @@ router.get('/trending', (req, res) => {
 
 router.get('/liquidity-events', poolsController.getLiquidityEvents);
 
-/* router.get('/liquidity-events', (req, res) => {
-  Sample response with fake data
-  res.json([
-    {
-      date: '2024-01-02T12:00:00Z',
-      type: 'Add Liquidity',
-      exchange_name: 'Uniswap',
-      from_address: '0x123',
-      base_token: 'ETH',
-      quote_token: 'USDT',
-      amount_in_usd: 5000.0,
-      price_in_usd: 3500.0,
-      base_token_amount: 1.5,
-      quote_token_amount: 5250.0,
-      tx: '0xabc',
-    },
-  ]);
-}); */
-
 router.get('/new', (req, res) => {
   res.json([
     {

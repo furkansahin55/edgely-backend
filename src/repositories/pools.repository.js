@@ -25,8 +25,6 @@ const getLiquidityEvents = async () => {
         dl.type,
         dl.exchange_name,
         dl.from_address,
-        t1.name as base_token,
-        t2.name as quote_token,
         dl.amount_in_usd,
         dl.price_in_usd,
         dl.base_token_amount,
@@ -41,7 +39,7 @@ const getLiquidityEvents = async () => {
         LEFT JOIN ethereum.tokens AS t2 ON dp.quote_token_address = t2.address
         
         ORDER BY dl.block_number DESC, dl.log_index DESC LIMIT 100;
-        `,
+      `,
       {
         type: QueryTypes.SELECT,
       }

@@ -15,7 +15,7 @@ router.get('/trending', (req, res) => {
       volume: 200000.5,
       price: 3500.0,
       price_change_pct: 0.05,
-      liquidity: 5000000.0,
+      liquidity_in_usd: 5000000.0,
       fdv: 700000000.0,
       created_at: '2024-01-01T00:00:00Z',
     },
@@ -28,7 +28,7 @@ router.get('/trending', (req, res) => {
       volume: 280224.95,
       price: 5566.18,
       price_change_pct: 0.06,
-      liquidity: 6044837.67,
+      liquidity_in_usd: 6044837.67,
       fdv: 134239130.91,
       created_at: '2024-02-11T00:00:00Z',
     },
@@ -41,7 +41,7 @@ router.get('/trending', (req, res) => {
       volume: 129644.66,
       price: 2382.44,
       price_change_pct: 0.03,
-      liquidity: 7933495.3,
+      liquidity_in_usd: 7933495.3,
       fdv: 774067812.2,
       created_at: '2024-04-23T00:00:00Z',
     },
@@ -54,7 +54,7 @@ router.get('/trending', (req, res) => {
       volume: 299023.1,
       price: 4000.01,
       price_change_pct: -0.06,
-      liquidity: 1414584.63,
+      liquidity_in_usd: 1414584.63,
       fdv: 421076834.82,
       created_at: '2024-05-10T00:00:00Z',
     },
@@ -67,7 +67,7 @@ router.get('/trending', (req, res) => {
       volume: 133296.61,
       price: 2031.3,
       price_change_pct: 0.01,
-      liquidity: 1184178.9,
+      liquidity_in_usd: 1184178.9,
       fdv: 967376628.03,
       created_at: '2024-11-08T00:00:00Z',
     },
@@ -200,7 +200,7 @@ module.exports = router;
  *                     type: number
  *                   price_change_pct:
  *                     type: number
- *                   liquidity:
+ *                   liquidity_in_usd:
  *                     type: number
  *                   fdv:
  *                     type: number
@@ -229,15 +229,16 @@ module.exports = router;
  *                   date:
  *                     type: string
  *                     format: date-time
+ *                   pair_name:
+ *                     type: string
+ *                   pair_age:
+ *                     type: string
+ *                     format: date-time
  *                   type:
  *                     type: string
  *                   exchange_name:
  *                     type: string
  *                   from_address:
- *                     type: string
- *                   base_token:
- *                     type: string
- *                   quote_token:
  *                     type: string
  *                   amount_in_usd:
  *                     type: number
@@ -246,6 +247,8 @@ module.exports = router;
  *                   base_token_amount:
  *                     type: number
  *                   quote_token_amount:
+ *                     type: number
+ *                   liquidity_in_usd:
  *                     type: number
  *                   tx:
  *                     type: string

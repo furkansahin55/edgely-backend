@@ -400,7 +400,7 @@ const getHoldersChartByDays = async (network, address) => {
     const result = await sequelize.query(
       `
     WITH days_table AS (
-    SELECT DISTINCT ON (token_id) address, token_id, transaction_hash, DATE_PART('day', ${network}.to_utc(NOW()) - ${network}.to_utc(block_timestamp)) as days_ago
+    SELECT DISTINCT ON (token_id) address, token_id, transaction_hash, DATE_PART('day', NOW() - block_timestamp) as days_ago
     FROM ${network}.nft_tokens 
     WHERE address = $1 AND to_address NOT IN (SELECT address FROM ${network}.dead_addresses) 
     ORDER BY token_id, block_number DESC, log_index DESC) 

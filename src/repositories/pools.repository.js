@@ -17,27 +17,30 @@ const getLiquidityEvents = async () => {
     }
 
     const result = await sequelize.query(
-      `SELECT
-      dl.block_timestamp as date,
-      dl.type,
-      dl.exchange_name,
-      dl.from_address,
-      t1.name as base_token,
-      t2.name as quote_token,
-      dl.amount_in_usd,
-      dl.price_in_usd,
-      dl.base_token_amount,
-      dl.quote_token_amount,
-      dl.transaction_hash as tx
-      
-      FROM
-      ethereum.dex_liquidity AS dl
-      LEFT JOIN ethereum.dex_pools AS dp ON dl.address = dp.address
-      LEFT JOIN ethereum.tokens AS t1 ON dp.base_token_address = t1.address
-      LEFT JOIN ethereum.tokens AS t2 ON dp.quote_token_address = t2.address
-      
-      ORDER BY dl.block_number DESC, dl.log_index DESC LIMIT 100;
-
+      `
+      SELECT
+      concat_ws('/', t1.name, t2.name) as pair_name,
+        dl.block_timestamp as date,
+        dp.block_timestamp as pair_age,
+        dl.type,
+        dl.exchange_name,
+        dl.from_address,
+        t1.name as base_token,
+        t2.name as quote_token,
+        dl.amount_in_usd,
+        dl.price_in_usd,
+        dl.base_token_amount,
+        dl.quote_token_amount,
+        100 as liquidity_in_usd,
+        dl.transaction_hash as tx
+        
+        FROM
+        ethereum.dex_liquidity AS dl
+        LEFT JOIN ethereum.dex_pools AS dp ON dl.address = dp.address
+        LEFT JOIN ethereum.tokens AS t1 ON dp.base_token_address = t1.address
+        LEFT JOIN ethereum.tokens AS t2 ON dp.quote_token_address = t2.address
+        
+        ORDER BY dl.block_number DESC, dl.log_index DESC LIMIT 100;
         `,
       {
         type: QueryTypes.SELECT,

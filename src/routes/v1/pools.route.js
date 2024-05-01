@@ -76,21 +76,7 @@ router.get('/trending', (req, res) => {
 
 router.get('/liquidity-events', poolsController.getLiquidityEvents);
 
-router.get('/new', (req, res) => {
-  res.json([
-    {
-      pair_name: 'ETH/DAI',
-      pair_address: '0x456',
-      created_at: '2024-01-03T00:00:00Z',
-      base_token: 'ETH',
-      quote_token: 'DAI',
-      initial_quote_token_amount: 10000.0,
-      initial_pool_timestamp: '2024-01-03T00:00:00Z',
-      current_quote_token_amount: 12000.0,
-      total_supply: 2000.0,
-    },
-  ]);
-});
+router.get('/new', poolsController.getNewPools);
 
 router.get('/info/:address', (req, res) => {
   const { address } = req.params;

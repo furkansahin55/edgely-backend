@@ -6,6 +6,12 @@ const getLiquidityEvents = catchAsync(async (req, res) => {
   res.send(result);
 });
 
+const getNewPools = catchAsync(async (req, res) => {
+  const result = await poolsService.getNewPools();
+  res.send(result);
+});
+
 module.exports = {
   getLiquidityEvents,
+  getNewPools,
 };

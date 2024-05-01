@@ -9,6 +9,16 @@ const getLiquidityEvents = async () => {
   return result;
 };
 
+/**
+ * Get last 100 new pools
+ * @returns {Object}
+ */
+const getNewPools = async () => {
+  const result = await poolsRepository.getNewPools();
+  return result;
+};
+
 module.exports = {
   getLiquidityEvents,
+  getNewPools,
 };

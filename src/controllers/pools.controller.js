@@ -11,7 +11,15 @@ const getNewPools = catchAsync(async (req, res) => {
   res.send(result);
 });
 
+const getTransactions = catchAsync(async (req, res) => {
+  const { address } = req.params;
+  const { blockNumberCursor, logIndexCursor, take } = req.query;
+  const result = await poolsService.getTransactions(address, blockNumberCursor, logIndexCursor, take);
+  res.send(result);
+});
+
 module.exports = {
   getLiquidityEvents,
   getNewPools,
+  getTransactions,
 };

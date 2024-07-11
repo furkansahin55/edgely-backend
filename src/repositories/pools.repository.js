@@ -140,30 +140,13 @@ const getTransactions = async (address, blockNumberCursor, logIndexCursor, take)
       const queryResult = await transactionQuery(address, takePlusOne, 'DESC', blockNumberCursor, logIndexCursor);
       if (queryResult.length === takePlusOne) {
         resultObj.hasNext = true;
-        resultObj.hasPrevious = true;
         queryResult.pop();
         resultObj.rows = queryResult;
       } else {
         resultObj.hasNext = false;
-        resultObj.hasPrevious = true;
-        resultObj.rows = queryResult;
-      }
-    } else {
-      const takePlusOne = Math.abs(take) + 1;
-      const queryResult = await transactionQuery(address, takePlusOne, 'ASC', blockNumberCursor, logIndexCursor);
-      queryResult.reverse();
-      if (queryResult.length === takePlusOne) {
-        resultObj.hasPrevious = true;
-        resultObj.hasNext = true;
-        queryResult.shift();
-        resultObj.rows = queryResult;
-      } else {
-        resultObj.hasPrevious = false;
-        resultObj.hasNext = true;
         resultObj.rows = queryResult;
       }
     }
-
     await cache.set(cacheId, resultObj, tags);
     return resultObj;
   } catch (error) {

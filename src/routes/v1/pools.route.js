@@ -1,5 +1,7 @@
 const express = require('express');
 const poolsController = require('../../controllers/pools.controller');
+const { transactionsValidation } = require('../../validations/pools.validation');
+const validate = require('../../middlewares/validate');
 
 const router = express.Router();
 
@@ -98,20 +100,7 @@ router.get('/price/:address', (req, res) => {
   res.json({ message: `Price chart data for address ${req.params.address}` });
 });
 
-router.get('/transactions/:address', (req, res) => {
-  const { address } = req.params;
-  res.json([
-    {
-      date: '2024-01-05T10:00:00Z',
-      type: 'Trade',
-      price_in_usd: 3500.0,
-      base_token_amount: 1.0,
-      quote_token_amount: 3500.0,
-      value_in_usd: 3500.0,
-      address,
-    },
-  ]);
-});
+router.get('/transactions/:address', validate(transactionsValidation), poolsController.getTransactions);
 
 router.get('/traders/:address', (req, res) => {
   res.json([

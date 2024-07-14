@@ -98,7 +98,63 @@ const getNewPools = async () => {
   }
 };
 
+const transactionQuery = async (address, limit, sort, blockNumberCursor = false, logIndexCursor = false) => {
+  const isCursorAvailable = blockNumberCursor !== false && logIndexCursor !== false;
+  const cursorQuery = isCursorAvailable ? ` AND (block_number, log_index) ${sort === 'DESC' ? '<' : '>'} ($3, $4) ` : '';
+
+  return sequelize.query(
+    `
+    SELECT
+        block_timestamp as date,
+        type,
+        price_in_usd,
+        price,
+        base_token_amount,
+        quote_token_amount,
+        amount_in_usd,
+        address
+        FROM
+        ethereum.dex_liquidity
+        WHERE address = $1 ${cursorQuery} 
+        
+        ORDER BY block_number ${sort}, log_index ${sort} LIMIT $2 `,
+    {
+      bind: isCursorAvailable ? [address, limit, blockNumberCursor, logIndexCursor] : [address, limit],
+      type: QueryTypes.SELECT,
+    }
+  );
+};
+
+const getTransactions = async (address, blockNumberCursor, logIndexCursor, take) => {
+  try {
+    const cacheId = `req:pools:txs:${address}:${blockNumberCursor}:${logIndexCursor}:${take}`;
+    const tags = ['all'];
+    const cacheResult = await cache.get(cacheId);
+    if (cacheResult) {
+      return cacheResult;
+    }
+    const resultObj = {};
+
+    if (take >= 0) {
+      const takePlusOne = Math.abs(take) + 1;
+      const queryResult = await transactionQuery(address, takePlusOne, 'DESC', blockNumberCursor, logIndexCursor);
+      if (queryResult.length === takePlusOne) {
+        resultObj.hasNext = true;
+        queryResult.pop();
+        resultObj.rows = queryResult;
+      } else {
+        resultObj.hasNext = false;
+        resultObj.rows = queryResult;
+      }
+    }
+    await cache.set(cacheId, resultObj, tags);
+    return resultObj;
+  } catch (error) {
+    throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, `DB Error: ${error.message}`, true, error.stack);
+  }
+};
 module.exports = {
   getLiquidityEvents,
   getNewPools,
+  getTransactions,
 };
